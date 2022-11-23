@@ -32,6 +32,9 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	width: 100vw;
+	height: 100vh;
+	background: radial-gradient(ellipse at right bottom, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
 }
 ol, ul {
 	list-style: none;
