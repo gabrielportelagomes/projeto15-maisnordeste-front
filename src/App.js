@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./assets/styles/GlobalStyle";
-import ScreenContainer from "./components/Screen Container";
+import ScreenContainer from "./components/ScreenContainer";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
