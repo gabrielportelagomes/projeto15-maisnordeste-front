@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./assets/styles/GlobalStyle";
+import ScreenContainer from "./components/Screen Container";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import CategoriesPage from "./pages/CategoriesPage/CategoriesPage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
@@ -17,20 +18,22 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/categorias" element={<CategoriesPage />} />
-        <Route path="/categorias/:categoria" element={<CategoryPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/pedidos" element={<OrdersPage />} />
-        <Route path="/produtos/:idProduto" element={<ProductPage />} />
-        <Route path="/carrinho" element={<ShoppingCartPage />} />
-        <Route path="/login" element={<SignInPage />} />
-        <Route path="/cadastro" element={<SignUpPage />} />
-        <Route path="/estados/:estado" element={<StatePage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <ScreenContainer>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/categorias" element={<CategoriesPage />} />
+          <Route path="/categorias/:categoria" element={<CategoryPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/pedidos" element={<OrdersPage />} />
+          <Route path="/produtos/:idProduto" element={<ProductPage />} />
+          <Route path="/carrinho" element={<ShoppingCartPage />} />
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/cadastro" element={<SignUpPage />} />
+          <Route path="/estados/:estado" element={<StatePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </ScreenContainer>
     </BrowserRouter>
   );
 }
