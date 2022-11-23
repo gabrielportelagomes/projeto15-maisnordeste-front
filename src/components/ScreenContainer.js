@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-function ScreenContainer() {
-  return <Screen></Screen>;
+function ScreenContainer(props) {
+  return <Screen>{props.children}</Screen>;
 }
 
 export default ScreenContainer;
