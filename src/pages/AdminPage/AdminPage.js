@@ -1,5 +1,5 @@
 function AdminPage() {
-  return <></>;
+  return <>Testeee</>;
 }
 
 export default AdminPage;
