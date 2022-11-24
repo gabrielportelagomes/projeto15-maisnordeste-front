@@ -4,6 +4,7 @@ import Logo from "../../components/Logo";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import URL from "../../constants/url";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ function SignUpPage() {
         password: signUpForm.password,
       };
       axios
-        .post(`http://localhost:5000/sign-up`, body)
+        .post(`${URL}/sign-up`, body)
         .then(() => navigate("/"))
         .catch((error) => {
           alert(error.response.data);
