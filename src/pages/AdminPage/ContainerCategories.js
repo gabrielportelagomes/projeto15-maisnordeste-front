@@ -28,8 +28,9 @@ const ContainerCategoriesStyled = styled.section`
   flex-wrap: wrap;
   width: 100%;
   grid-template-columns: auto auto auto;
+  margin-bottom: 10px;
   label {
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
 `;
