@@ -8,7 +8,7 @@ export default ScreenContainer;
 
 const Screen = styled.main`
   width: 390px;
-  height: 844px;
+  height: 100vh;
   margin: 0 auto;
   display: flex;
   position: relative;
