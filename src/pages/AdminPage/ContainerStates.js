@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
+const states = ["MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA"];
 
-export default function ContainerStates({ states, setState }) {
+export default function ContainerStates({ setState }) {
   const [selectedInputs, setSelectedInputs] = useState(["MA"]);
 
   function handleInput(event) {

@@ -7,16 +7,14 @@ import InputTitle from "./InputTitle";
 import InputImage from "./InputImage";
 import { useState } from "react";
 
-const states = ["MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA"];
-
 function AdminPage() {
-  const [state, setState] = useState(states[0]);
+  const [state, setState] = useState("MA");
 
   return (
     <AdminPageStyle onSubmit="">
       <h1>Cadastro de produtos</h1>
       <h2>Selecione o Estado</h2>
-      <ContainerStates states={states} setState={setState} />
+      <ContainerStates setState={setState} />
       <h2>Selecione a(s) categoria(s)</h2>
       <ContainerCategories />
       <h2>Nome da localidade</h2>
