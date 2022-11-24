@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import URL from "../../constants/url";
+import LoadingButton from "../../assets/styles/LoadingButton";
+
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ function SignUpPage() {
         .post(`${URL}/sign-up`, body)
         .then(() => navigate("/"))
         .catch((error) => {
-          alert(error.response.data);
+          alert(error.response.data.message);
           setDisabledButton(false);
         });
     } else {
@@ -156,9 +158,15 @@ function SignUpPage() {
         {errorPassword && (
           <ErrorPassword>As senhas não conferem!</ErrorPassword>
         )}
-        <Button type="submit" disabled={disabledButton}>
-          Criar conta
-        </Button>
+        {disabledButton ? (
+          <Button disabled={disabledButton}>
+            <LoadingButton />
+          </Button>
+        ) : (
+          <Button type="submit" disabled={disabledButton}>
+            Criar conta
+          </Button>
+        )}
       </Form>
     </PageContainer>
   );
@@ -249,6 +257,9 @@ const ErrorPassword = styled.span`
 const Button = styled.button`
   width: 230px;
   height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 5px;
   border: none;
   background-color: #3003b2;
