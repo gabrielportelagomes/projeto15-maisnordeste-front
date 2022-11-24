@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const AdminPageStyle = styled.form`
-  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,10 +10,45 @@ const AdminPageStyle = styled.form`
   }
   textarea {
     resize: none;
-    width: 300px;
+    width: 283px;
+    height: 80px;
     border-radius: 5px;
     border: none;
-    
+    padding: 10px;
+    margin-bottom: 10px;
+    ::placeholder {
+      font-family: "Comfortaa";
+      font-size: 16px;
+    }
+  }
+  input[type="checkbox"] {
+    margin-bottom: 10px;
+  }
+  input[type="text"] {
+    width: 283px;
+    height: 40px;
+    margin-bottom: 10px;
+    padding: 10px;
+    ::placeholder {
+      font-size: 16px;
+    }
+  }
+  label {
+    font-size: 16px;
+  }
+  h1 {
+    margin: 10px auto;
+  }
+  h2 {
+    margin: 10px auto;
+  }
+  button {
+    height: 40px;
+    width: 283px;
+    margin: 10px auto;
+    background-color: #3003b2;
+    font-size: 16px;
+    color: white;
   }
 `;
 
