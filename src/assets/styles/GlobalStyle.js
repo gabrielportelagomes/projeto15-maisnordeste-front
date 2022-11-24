@@ -25,6 +25,37 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+h1 {
+	color: white;
+	font-size: 24px;
+}
+h2 {
+	color: #FFBABA;
+	font-size: 20px;
+}
+label {
+	color: white;
+}
+input, textarea {
+	font-family: "Comfortaa";
+	border: none;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: white;
+	::placeholder{
+		font-family: "Comfortaa";
+		color: dimgray;
+	}
+	:focus {
+        outline: none;
+      }
+}
+
+button {
+	border-radius: 5px;
+	font-family: "Comfortaa";
+	border: none;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -35,6 +66,7 @@ body {
 	width: 100%;
 	height: 100%;
 	background: radial-gradient(ellipse at right bottom, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
+	font-family: "Comfortaa";
 }
 ol, ul {
 	list-style: none;
