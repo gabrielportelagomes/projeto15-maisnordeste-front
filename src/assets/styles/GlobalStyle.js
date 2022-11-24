@@ -52,7 +52,7 @@ input, textarea {
 }
 
 button {
-	border-radius: 5px;
+	border-radius: 10px;
 	font-family: "Comfortaa";
 	border: none;
 }
