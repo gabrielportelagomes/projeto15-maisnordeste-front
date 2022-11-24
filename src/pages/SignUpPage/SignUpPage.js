@@ -1,19 +1,18 @@
 import styled from "styled-components";
 import { MdArrowBackIos } from "react-icons/md";
 import Logo from "../../components/Logo";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import URL from "../../constants/url";
 import LoadingButton from "../../assets/styles/LoadingButton";
 
-
-function SignUpPage() {
+function SignUpPage({ emailForm }) {
   const navigate = useNavigate();
   const [disabledButton, setDisabledButton] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [signUpForm, setSignUpForm] = useState({
-    email: "",
+    email: emailForm.email,
     cpf: "",
     name: "",
     surname: "",
@@ -30,6 +29,34 @@ function SignUpPage() {
     setSignUpForm({ ...signUpForm, [name]: value });
   }
 
+  function cpfMask(e) {
+    let newValue = e.target.value;
+    newValue = newValue.replace(/\D/g, "");
+    newValue = newValue.replace(/(\d{3})(\d)/, "$1.$2");
+    newValue = newValue.replace(/(\d{3})(\d)/, "$1.$2");
+    newValue = newValue.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    e.target.value = newValue;
+    return e;
+  }
+
+  function birthDateMask(e) {
+    let newValue = e.target.value;
+    newValue = newValue.replace(/\D/g, "");
+    newValue = newValue.replace(/(\d{2})(\d)/, "$1/$2");
+    newValue = newValue.replace(/(\d{2})(\d)/, "$1/$2");
+    e.target.value = newValue;
+    return e;
+  }
+
+  function telephoneMask(e) {
+    let newValue = e.target.value;
+    newValue = newValue.replace(/\D/g, "");
+    newValue = newValue.replace(/(\d{2})(\d)/, "($1) $2");
+    newValue = newValue.replace(/(\d)(\d{4})$/, "$1-$2");
+    e.target.value = newValue;
+    return e;
+  }
+
   function signUp(event) {
     event.preventDefault();
     setDisabledButton(true);
@@ -37,13 +64,14 @@ function SignUpPage() {
     if (signUpForm.password === signUpForm.confirmPassword) {
       const body = {
         email: signUpForm.email,
-        cpf: signUpForm.cpf,
+        cpf: signUpForm.cpf.replace(/[^\d]+/g, ""),
         name: signUpForm.name,
         surname: signUpForm.surname,
         birthDate: signUpForm.birthDate,
-        telephone: signUpForm.telephone,
+        telephone: signUpForm.telephone.replace(/[^\d]+/g, ""),
         password: signUpForm.password,
       };
+
       axios
         .post(`${URL}/sign-up`, body)
         .then(() => navigate("/"))
@@ -60,31 +88,40 @@ function SignUpPage() {
   return (
     <PageContainer>
       <Logo />
-      <BackButton>
-        <MdArrowBackIos />
-      </BackButton>
+      {disabledButton ? (
+        <BackButton>
+          <MdArrowBackIos />
+        </BackButton>
+      ) : (
+        <Link to="/login">
+          <BackButton>
+            <MdArrowBackIos />
+          </BackButton>
+        </Link>
+      )}
+
       <Form onSubmit={signUp}>
         <h1>Quero criar uma conta</h1>
         <Label>E-mail:</Label>
         <Input
           name="email"
-          value={signUpForm.email}
-          onChange={handleForm}
-          type="text"
+          value={emailForm.email}
+          type="email"
           placeholder="Digite seu e-mail"
-          disabled={disabledButton}
+          disabled={true}
+          readOnly
           required
         ></Input>
-        <p>Dados Pessoais</p>
+        <h2>Dados Pessoais</h2>
         <Label htmlFor="cpf">CPF:</Label>
         <Input
           name="cpf"
           value={signUpForm.cpf}
-          onChange={handleForm}
+          onChange={(e) => handleForm(cpfMask(e))}
           type="text"
-          placeholder="___.___.___.-__"
-          minLength="11"
-          maxLength="11"
+          placeholder="000.000.000-00"
+          minLength="14"
+          maxLength="14"
           disabled={disabledButton}
           required
         ></Input>
@@ -112,7 +149,7 @@ function SignUpPage() {
         <Input
           name="birthDate"
           value={signUpForm.birthDate}
-          onChange={handleForm}
+          onChange={(e) => handleForm(birthDateMask(e))}
           type="text"
           placeholder="DD/MM/AAAA"
           minLength="10"
@@ -124,11 +161,11 @@ function SignUpPage() {
         <Input
           name="telephone"
           value={signUpForm.telephone}
-          onChange={handleForm}
+          onChange={(e) => handleForm(telephoneMask(e))}
           type="text"
-          placeholder="Digite seu telefone"
-          minLength="11"
-          maxLength="11"
+          placeholder="(00) 00000-00000"
+          minLength="15"
+          maxLength="15"
           disabled={disabledButton}
           required
         ></Input>
@@ -204,12 +241,12 @@ const Form = styled.form`
     text-align: left;
     margin-bottom: 20px;
   }
-  p {
+  h2 {
     font-family: "Comfortaa", cursive;
     font-weight: 400;
     font-size: 20px;
     color: #ffbaba;
-    margin: 10px 0;
+    margin-top: 30px;
   }
 `;
 
@@ -220,16 +257,12 @@ const Label = styled.label`
   font-size: 14px;
   color: #ffbaba;
   text-align: left;
+  margin: 10px 0;
 `;
 
 const Input = styled.input`
   width: 340px;
   height: 38px;
-  border-radius: 5px;
-  margin: 5px 0;
-  border: none;
-  background-color: #ffffff;
-  padding: 15px;
   font-family: "Comfortaa", cursive;
   font-weight: 400;
   font-size: 14px;
@@ -260,7 +293,6 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
   border: none;
   background-color: #3003b2;
   font-family: "Comfortaa", cursive;
