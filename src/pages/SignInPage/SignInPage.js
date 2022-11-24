@@ -7,7 +7,7 @@ import axios from "axios";
 import URL from "../../constants/url";
 import LoadingButton from "../../assets/styles/LoadingButton";
 
-function SignInPage() {
+function SignInPage({ emailForm, setEmailForm }) {
   const navigate = useNavigate();
   const [disabledButton, setDisabledButton] = useState(false);
   const [disabledSignInButton, setDisabledSignInButton] = useState(false);
@@ -16,9 +16,6 @@ function SignInPage() {
   const [signInForm, setSignInForm] = useState({
     email: "",
     password: "",
-  });
-  const [emailForm, setEmailForm] = useState({
-    email: "",
   });
 
   function handleForm(event) {
@@ -45,7 +42,7 @@ function SignInPage() {
   }
 
   function handleEmailForm(event) {
-    if (errorEmailSignUp == true) {
+    if (errorEmailSignUp === true) {
       setErrorEmailSignUp(false);
     }
     const { name, value } = event.target;
@@ -112,7 +109,7 @@ function SignInPage() {
           </Button>
         )}
       </Form>
-      <EmailForm onSubmit={checkEmail}>
+      <Form onSubmit={checkEmail}>
         <h1>Quero criar uma conta</h1>
         <Label>E-mail:</Label>
         <InputSignUp
@@ -137,7 +134,7 @@ function SignInPage() {
             Continuar
           </Button>
         )}
-      </EmailForm>
+      </Form>
     </PageContainer>
   );
 }
@@ -183,10 +180,6 @@ const Form = styled.form`
   }
 `;
 
-const EmailForm = styled(Form)`
-  margin-top: 150px;
-`;
-
 const Label = styled.label`
   width: 100%;
   font-family: "Comfortaa", cursive;
@@ -200,10 +193,6 @@ const Label = styled.label`
 const Input = styled.input`
   width: 340px;
   height: 38px;
-  border-radius: 5px;
-  border: none;
-  background-color: #ffffff;
-  padding: 15px;
   font-family: "Comfortaa", cursive;
   font-weight: 400;
   font-size: 14px;
@@ -234,7 +223,6 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
   border: none;
   background-color: #3003b2;
   font-family: "Comfortaa", cursive;

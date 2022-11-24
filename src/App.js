@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./assets/styles/GlobalStyle";
 import ScreenContainer from "./components/ScreenContainer";
@@ -15,6 +16,10 @@ import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import StatePage from "./pages/StatePage/StatePage";
 
 function App() {
+  const [emailForm, setEmailForm] = useState({
+    email: "",
+  });
+
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -28,8 +33,18 @@ function App() {
           <Route path="/pedidos" element={<OrdersPage />} />
           <Route path="/produtos/:idProduto" element={<ProductPage />} />
           <Route path="/carrinho" element={<ShoppingCartPage />} />
-          <Route path="/login" element={<SignInPage />} />
-          <Route path="/cadastro" element={<SignUpPage />} />
+          <Route
+            path="/login"
+            element={
+              <SignInPage emailForm={emailForm} setEmailForm={setEmailForm} />
+            }
+          />
+          <Route
+            path="/cadastro"
+            element={
+              <SignUpPage emailForm={emailForm} setEmailForm={setEmailForm} />
+            }
+          />
           <Route path="/estados/:estado" element={<StatePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
