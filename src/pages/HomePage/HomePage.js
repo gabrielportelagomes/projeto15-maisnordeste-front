@@ -71,7 +71,11 @@ function HomePage() {
           </State>
         ))}
       </StatesContainer>
-      <CategoriesButton>Busque por categoria</CategoriesButton>
+      <ButtonContainer>
+        <Link to="/categorias">
+          <CategoriesButton>Busque por categoria</CategoriesButton>
+        </Link>
+      </ButtonContainer>
     </PageContainer>
   );
 }
@@ -143,6 +147,11 @@ const Title = styled.h1`
 const StatesContainer = styled.div`
   width: 340px;
   margin-top: 30px;
+  margin-bottom: 70px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const State = styled.div`
@@ -169,6 +178,11 @@ const State = styled.div`
   }
 `;
 
+const ButtonContainer = styled.div`
+  position: fixed;
+  bottom: 30px;
+`;
+
 const CategoriesButton = styled.button`
   width: 230px;
   height: 35px;
@@ -176,6 +190,4 @@ const CategoriesButton = styled.button`
   font-weight: 700;
   font-size: 16px;
   color: #ffffff;
-  position: fixed;
-  bottom: 30px;
 `;
