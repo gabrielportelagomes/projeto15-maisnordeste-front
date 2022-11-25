@@ -1,5 +1,10 @@
+import { useUserData } from "../../providers/userData";
+
 function StatePage() {
-    return <></>;
-  }
-  
-  export default StatePage;
+  const { userData } = useUserData();
+  console.log(userData);
+  console.log("1")
+  return <>teste</>;
+}
+
+export default StatePage;
