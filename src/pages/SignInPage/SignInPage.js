@@ -6,9 +6,11 @@ import { useState } from "react";
 import axios from "axios";
 import URL from "../../constants/url";
 import LoadingButton from "../../assets/styles/LoadingButton";
+import { useAuth } from "../../providers/auth";
 
 function SignInPage({ emailForm, setEmailForm }) {
   const navigate = useNavigate();
+  const { setUserAuth } = useAuth();
   const [disabledButton, setDisabledButton] = useState(false);
   const [disabledSignInButton, setDisabledSignInButton] = useState(false);
   const [disabledSignUpButton, setDisabledSignUpButton] = useState(false);
@@ -33,7 +35,14 @@ function SignInPage({ emailForm, setEmailForm }) {
     };
     axios
       .post(`${URL}/sign-in`, body)
-      .then(() => navigate("/"))
+      .then((response) => {
+        setUserAuth(response.data);
+        localStorage.setItem(
+          "userAuthMaisNordeste",
+          JSON.stringify(response.data)
+        );
+        navigate("/");
+      })
       .catch((error) => {
         alert(error.response.data.message);
         setDisabledButton(false);
