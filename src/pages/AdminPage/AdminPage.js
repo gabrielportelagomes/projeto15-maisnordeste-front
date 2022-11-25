@@ -10,6 +10,8 @@ import Logo from "../../components/Logo";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import URL from "../../constants/url";
+import { useUserData } from "../../providers/userData";
+import LoadingPage from "../../assets/styles/LoadingPage";
 
 function AdminPage() {
   const [selectedState, setSelectedState] = useState("MA");
@@ -21,11 +23,11 @@ function AdminPage() {
     altaTemporada: "",
     baixaTemporada: "",
   });
-
+  const { userData } = useUserData();
   const navigate = useNavigate();
 
   const form = {
-    admin: "erick1@gmail.com", //=> userData.email
+    admin: "", 
     title: selectedTitle,
     state: selectedState,
     description: selectedDescription,
@@ -57,7 +59,10 @@ function AdminPage() {
       alert("Selecione pelo menos uma categoria!");
       return;
     }
-    const promise = axios.post(`${URL}/products`, form);
+    const promise = axios.post(`${URL}/products`, {
+      ...form,
+      admin: userData.email,
+    });
     promise.then((res) => {
       alert(res.data.message);
       const answer = window.confirm("Deseja cadastrar outro produto?");
@@ -74,6 +79,18 @@ function AdminPage() {
     });
   }
 
+  if (userData === undefined) {
+    return (
+      <>
+        <LoadingPage />
+      </>
+    );
+  }
+
+  if (userData && userData.type !== "admin") {
+    alert("Usuário não autorizado!");
+    navigate("/");
+  }
   return (
     <>
       <Logo />
