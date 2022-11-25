@@ -2,31 +2,22 @@ import styled from "styled-components";
 import Logo from "../../components/Logo";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import URL from "../../constants/url";
 
 function HomePage() {
-  const states = [
-    { name: "Alagoas", image: "https://i.imgur.com/GVaiKyO.jpeg", state: "AL" },
-    { name: "Bahia", image: "https://i.imgur.com/O8T4at2.jpeg", state: "BA" },
-    { name: "Ceará", image: "https://i.imgur.com/BMTIeLA.jpeg", state: "CE" },
-    {
-      name: "Maranhão",
-      image: "https://i.imgur.com/soSWHek.jpeg",
-      state: "MA",
-    },
-    { name: "Paraíba", image: "https://i.imgur.com/W5woXVC.jpeg", state: "PB" },
-    {
-      name: "Pernambuco",
-      image: "https://i.imgur.com/IJP25im.jpeg",
-      state: "PE",
-    },
-    { name: "Piauí", image: "https://i.imgur.com/EYqaMQr.jpeg", state: "PI" },
-    {
-      name: "Rio Grande do Norte",
-      image: "https://i.imgur.com/6QbZ0T0.jpeg",
-      state: "RN",
-    },
-    { name: "Sergipe", image: "https://i.imgur.com/QQ0XTP8.jpeg", state: "SE" },
-  ];
+  const [states, setStates] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${URL}/states`)
+      .then((response) => {
+        setStates(response.data);
+      })
+      .catch((error) => {
+        alert(error.response.data);
+      });
+  }, []);
 
   return (
     <PageContainer>
