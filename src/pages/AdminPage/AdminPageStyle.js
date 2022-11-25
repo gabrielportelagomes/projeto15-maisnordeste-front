@@ -51,6 +51,7 @@ const AdminPageStyle = styled.form`
     background-color: #3003b2;
     font-size: 16px;
     color: white;
+    cursor: pointer;
   }
 `;
 
