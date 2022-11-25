@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const categories = [
@@ -10,12 +11,25 @@ const categories = [
   "Aventura",
 ];
 
-export default function ContainerCategories() {
+export default function ContainerCategories({setSelectedCategories, selectedCategories}) {
+  // pelo menos UMA categoria deve ser selecionada!
+  function handleInput(event) {
+    const category = event.target.value;
+
+    if (!selectedCategories.includes(category)) {
+      const selected = [...selectedCategories, category];
+      setSelectedCategories(selected);
+    } else if (selectedCategories.includes(category)) {
+      const selected = selectedCategories.filter((s) => s !== category);
+      setSelectedCategories(selected);
+    }
+  }
+
   return (
     <ContainerCategoriesStyled>
-      {categories.map((category) => (
-        <label>
-          <input type="checkbox" />
+      {categories.map((category, index) => (
+        <label key={index}>
+          <input type="checkbox" value={category} onChange={handleInput} />
           {category}
         </label>
       ))}

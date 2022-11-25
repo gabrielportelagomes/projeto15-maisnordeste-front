@@ -24,7 +24,8 @@ const AdminPageStyle = styled.form`
   input[type="checkbox"] {
     margin-bottom: 10px;
   }
-  input[type="text"] {
+  input[type="text"],
+  input[type="url"] {
     width: 283px;
     height: 40px;
     margin-bottom: 10px;

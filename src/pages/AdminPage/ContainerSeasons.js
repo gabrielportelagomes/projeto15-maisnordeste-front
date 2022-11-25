@@ -1,23 +1,52 @@
 import styled from "styled-components";
 
-export default function ContainerSeasons() {
+export default function ContainerSeasons({
+  setSelectedSeasons,
+  selectedSeasons,
+}) {
+  function convertValue(event) {
+    let newValue = event.target.value;
+    newValue = newValue.replace(/\D/g, "");
+    newValue = newValue.replace(/(\d)(\d{2})$/, "$1,$2");
+    newValue = newValue.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    event.target.value = newValue;
+    return event;
+  }
+
+  function handleForm(event) {
+    const { name, value } = event.target;
+    setSelectedSeasons({ ...selectedSeasons, [name]: value });
+  }
+
   return (
     <ContainerSeasonsStyled>
       <div className="high-season">
-        <div className="description">
-          Preço alta-estação{" "}
-          <div className="low-description">
+        <div className="top-description">
+          Preço alta temporada
+          <div className="bottom-description">
             (Natal, Carnaval, Páscoa e Revéillon)
           </div>
         </div>
-        <input placeholder="R$" />
+        <input
+          onChange={(event) => handleForm(convertValue(event))}
+          name="altaTemporada"
+          value={"R$ " + selectedSeasons.altaTemporada}
+          required
+        />
       </div>
       <div className="low-season">
-        <div className="description">
-          Preço baixa-estação
-          <div className="low-description">(Maio-Junho, Setembro-Outubro)</div>
+        <div className="top-description">
+          Preço baixa temporada
+          <div className="bottom-description">
+            (Maio-Junho, Setembro-Outubro)
+          </div>
         </div>
-        <input placeholder="R$" />
+        <input
+          onChange={(event) => handleForm(convertValue(event))}
+          name="baixaTemporada"
+          value={"R$ " + selectedSeasons.baixaTemporada}
+          required
+        />
       </div>
     </ContainerSeasonsStyled>
   );
@@ -40,11 +69,11 @@ const ContainerSeasonsStyled = styled.section`
       height: 38px;
     }
   }
-  .description {
+  .top-description {
     color: #ffbaba;
     font-size: 20px;
   }
-  .low-description {
+  .bottom-description {
     color: #ffbaba;
     font-size: 10px;
   }

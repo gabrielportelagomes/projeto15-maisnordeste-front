@@ -1,11 +1,14 @@
-export default function InputTitle() {
+export default function InputTitle({ setSelectedTitle, selectedTitle }) {
+  function inputControl(event) {
+    setSelectedTitle(event.target.value);
+  }
+
   return (
     <input
       placeholder="Digite o local aqui"
       type="text"
-      name="title"
-      onChange="{inputControl}"
-      //value="{form.email}"
+      onChange={inputControl}
+      value={selectedTitle}
       required
     />
   );
