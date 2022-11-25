@@ -6,9 +6,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import URL from "../../constants/url";
 import LoadingPage from "../../assets/styles/LoadingPage";
+import { useAuth } from "../../providers/auth";
 
 function HomePage() {
   const [states, setStates] = useState([]);
+  const { userAuth } = useAuth();
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     axios
@@ -20,6 +23,21 @@ function HomePage() {
         alert(error.response.data);
       });
   }, []);
+
+  useEffect(() => {
+    if (userAuth !== undefined) {
+      axios
+        .get(`${URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${userAuth.token}`,
+          },
+        })
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch((error) => console.log(error.response.data.message));
+    }
+  }, [userAuth]);
 
   if (states.length === 0) {
     return (
