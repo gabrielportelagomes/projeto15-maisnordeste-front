@@ -11,6 +11,7 @@ function AdminPage() {
   const [selectedState, setSelectedState] = useState("MA");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState("");
 
   // antes de dar o post, verificar pelo front se pelo menos uma categoria foi selecionada
   return (
@@ -29,7 +30,10 @@ function AdminPage() {
         selectedTitle={selectedTitle}
       />
       <h2>Pequena descrição</h2>
-      <TextAreaDescription />
+      <TextAreaDescription
+        setSelectedDescription={setSelectedDescription}
+        selectedDescription={selectedDescription}
+      />
       <h2>URL da imagem</h2>
       <InputImage />
       <ContainerSeasonsStyled />

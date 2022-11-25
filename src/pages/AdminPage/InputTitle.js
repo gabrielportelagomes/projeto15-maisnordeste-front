@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export default function InputTitle({ setSelectedTitle, selectedTitle }) {
   function inputControl(event) {
     setSelectedTitle(event.target.value);
@@ -9,7 +7,6 @@ export default function InputTitle({ setSelectedTitle, selectedTitle }) {
     <input
       placeholder="Digite o local aqui"
       type="text"
-      name="title"
       onChange={inputControl}
       value={selectedTitle}
       required
