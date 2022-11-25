@@ -3,19 +3,19 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext({});
 
 export const AuthProvider = (props) => {
-  const [userLogin, setUserLogin] = useState(undefined);
+  const [userAuth, setUserAuth] = useState(undefined);
 
   useEffect(() => {
-    const userStorage = localStorage.getItem("userMyWallet");
-    if (userStorage) {
-      setUserLogin(JSON.parse(userStorage));
+    const userAuthStorage = localStorage.getItem("userAuthMaisNordeste");
+    if (userAuthStorage) {
+      setUserAuth(JSON.parse(userAuthStorage));
     } else {
-      setUserLogin(undefined);
+      setUserAuth(undefined);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ userLogin, setUserLogin }}>
+    <AuthContext.Provider value={{ userAuth, setUserAuth }}>
       {props.children}
     </AuthContext.Provider>
   );
