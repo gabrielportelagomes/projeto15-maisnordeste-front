@@ -66,9 +66,11 @@ function HomePage() {
       <Title>Qual Nordeste você quer conhecer?</Title>
       <StatesContainer>
         {states.map((state, id) => (
-          <State key={id} stateImage={state.image} id={state.state}>
-            <p>{state.name}</p>
-          </State>
+          <Link key={id} to={`/states/${state.state}`}>
+            <State key={id} stateImage={state.image} id={state.state}>
+              <p>{state.name}</p>
+            </State>
+          </Link>
         ))}
       </StatesContainer>
       <ButtonContainer>
