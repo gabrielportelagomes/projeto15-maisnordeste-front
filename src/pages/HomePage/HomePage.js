@@ -6,12 +6,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import URL from "../../constants/url";
 import LoadingPage from "../../assets/styles/LoadingPage";
-import { useAuth } from "../../providers/auth";
+import { useUserData } from "../../providers/userData";
 
 function HomePage() {
   const [states, setStates] = useState([]);
-  const { userAuth } = useAuth();
-  const [user, setUser] = useState(undefined);
+  const { userData } = useUserData();
 
   useEffect(() => {
     axios
@@ -24,22 +23,7 @@ function HomePage() {
       });
   }, []);
 
-  useEffect(() => {
-    if (userAuth !== undefined) {
-      axios
-        .get(`${URL}/users`, {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`,
-          },
-        })
-        .then((response) => {
-          setUser(response.data);
-        })
-        .catch((error) => console.log(error.response.data.message));
-    }
-  }, [userAuth]);
-
-  if (states.length === 0) {
+  if (states.length === 0 || userData === undefined) {
     return (
       <PageContainer>
         <LoadingPage />
@@ -66,7 +50,7 @@ function HomePage() {
       <Title>Qual Nordeste você quer conhecer?</Title>
       <StatesContainer>
         {states.map((state, id) => (
-          <Link key={id} to={`/states/${state.state}`}>
+          <Link key={id} to={`/estados/${state.state}`}>
             <State key={id} stateImage={state.image} id={state.state}>
               <p>{state.name}</p>
             </State>
