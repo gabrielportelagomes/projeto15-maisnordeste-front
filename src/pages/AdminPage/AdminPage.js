@@ -12,6 +12,7 @@ function AdminPage() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedDescription, setSelectedDescription] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
 
   // antes de dar o post, verificar pelo front se pelo menos uma categoria foi selecionada
   return (
@@ -35,7 +36,10 @@ function AdminPage() {
         selectedDescription={selectedDescription}
       />
       <h2>URL da imagem</h2>
-      <InputImage />
+      <InputImage 
+      setSelectedImage={setSelectedImage}
+      selectedImage={selectedImage}
+      />
       <ContainerSeasonsStyled />
       <button type="submit">Adicionar</button>
     </AdminPageStyle>

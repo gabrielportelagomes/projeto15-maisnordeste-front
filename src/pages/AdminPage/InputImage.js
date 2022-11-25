@@ -1,13 +1,15 @@
-export default function InputImage() {
+export default function InputImage({ setSelectedImage, selectedImage }) {
+  function inputControl(event) {
+    setSelectedImage(event.target.value);
+  }
+
   return (
     <input
       placeholder="http://"
-      type="text"
-      name="title"
-      onChange="{inputControl}"
-      //value="{form.email}"
+      type="url"
+      onChange={inputControl}
+      value={selectedImage}
       required
-      // disabled="{isBlocked}"
     />
   );
 }
