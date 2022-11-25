@@ -7,6 +7,9 @@ import InputTitle from "./InputTitle";
 import InputImage from "./InputImage";
 import { useState } from "react";
 import Logo from "../../components/Logo";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import URL from "../../constants/url";
 
 function AdminPage() {
   const [selectedState, setSelectedState] = useState("MA");
@@ -19,8 +22,10 @@ function AdminPage() {
     baixaTemporada: "",
   });
 
+  const navigate = useNavigate();
+
   const form = {
-    admin: "erick1@gmail.com", //mudar depois que tiver o token
+    admin: "erick1@gmail.com", //=> userData.email
     title: selectedTitle,
     state: selectedState,
     description: selectedDescription,
@@ -52,6 +57,21 @@ function AdminPage() {
       alert("Selecione pelo menos uma categoria!");
       return;
     }
+    const promise = axios.post(`${URL}/products`, form);
+    promise.then((res) => {
+      alert(res.data.message);
+      const answer = window.confirm("Deseja cadastrar outro produto?");
+      if (answer === true) {
+        window.location.reload();
+      } else {
+        navigate("/");
+      }
+    });
+    promise.catch((err) => {
+      alert(err.response.data.message);
+      navigate("/");
+      window.location.reload();
+    });
   }
 
   return (
