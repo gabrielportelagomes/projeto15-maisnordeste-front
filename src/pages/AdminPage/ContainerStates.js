@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { useState } from "react";
 const states = ["MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA"];
 
-export default function ContainerStates({ setState }) {
+export default function ContainerStates({ setSelectedState }) {
   const [selectedInputs, setSelectedInputs] = useState(["MA"]);
 
   function handleInput(event) {
     if (event.target.checked) {
-      setState(event.target.value);
+      setSelectedState(event.target.value);
       setSelectedInputs(event.target.value);
     }
   }

@@ -8,15 +8,19 @@ import InputImage from "./InputImage";
 import { useState } from "react";
 
 function AdminPage() {
-  const [state, setState] = useState("MA");
+  const [selectedState, setSelectedState] = useState("MA");
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   return (
     <AdminPageStyle onSubmit="">
       <h1>Cadastro de produtos</h1>
       <h2>Selecione o Estado</h2>
-      <ContainerStates setState={setState} />
+      <ContainerStates setSelectedState={setSelectedState} />
       <h2>Selecione a(s) categoria(s)</h2>
-      <ContainerCategories />
+      <ContainerCategories
+        setSelectedCategories={setSelectedCategories}
+        selectedCategories={selectedCategories}
+      />
       <h2>Nome da localidade</h2>
       <InputTitle />
       <h2>Pequena descrição</h2>
