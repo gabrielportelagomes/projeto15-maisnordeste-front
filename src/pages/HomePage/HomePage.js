@@ -1,16 +1,13 @@
 import styled from "styled-components";
-import Logo from "../../components/Logo";
-import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import URL from "../../constants/url";
 import LoadingPage from "../../assets/styles/LoadingPage";
-import { useUserData } from "../../providers/userData";
+import Header from "../../components/Header";
 
 function HomePage() {
   const [states, setStates] = useState([]);
-  const { userData } = useUserData();
 
   useEffect(() => {
     axios
@@ -23,7 +20,7 @@ function HomePage() {
       });
   }, []);
 
-  if (states.length === 0 || userData === undefined) {
+  if (states.length === 0) {
     return (
       <PageContainer>
         <LoadingPage />
@@ -33,20 +30,7 @@ function HomePage() {
 
   return (
     <PageContainer>
-      <Header>
-        <Logo />
-        <Link to="/login">
-          <SignInButton>Entrar</SignInButton>
-        </Link>
-        <Link to="/carrinho">
-          <CartIcon>
-            <TiShoppingCart />
-            <ItemsCart>
-              <span>X</span>
-            </ItemsCart>
-          </CartIcon>
-        </Link>
-      </Header>
+      <Header />
       <Title>Qual Nordeste você quer conhecer?</Title>
       <StatesContainer>
         {states.map((state, id) => (
@@ -74,50 +58,6 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Header = styled.div`
-  width: 340px;
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px 25px;
-`;
-
-const SignInButton = styled.button`
-  width: 100px;
-  height: 40px;
-  background-color: #b2b2b2;
-  margin: 0 25px;
-  font-weight: 700;
-  font-size: 18px;
-  color: #ffffff;
-  cursor: pointer;
-`;
-const CartIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  font-size: 40px;
-  color: #ffffff;
-  position: relative;
-`;
-
-const ItemsCart = styled.div`
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #4ecb71;
-  border-radius: 50%;
-  position: absolute;
-  left: -10px;
-  bottom: 0px;
-  span {
-    font-family: "Comfortaa", cursive;
-    font-weight: 700;
-    font-size: 15px;
-    color: #ffffff;
-  }
 `;
 
 const Title = styled.h1`
