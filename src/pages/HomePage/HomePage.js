@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import URL from "../../constants/url";
+import LoadingPage from "../../assets/styles/LoadingPage";
 
 function HomePage() {
   const [states, setStates] = useState([]);
+
   useEffect(() => {
     axios
       .get(`${URL}/states`)
@@ -18,6 +20,14 @@ function HomePage() {
         alert(error.response.data);
       });
   }, []);
+
+  if (states.length === 0) {
+    return (
+      <PageContainer>
+        <LoadingPage />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>
