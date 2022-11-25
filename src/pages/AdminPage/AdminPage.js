@@ -10,7 +10,9 @@ import { useState } from "react";
 function AdminPage() {
   const [selectedState, setSelectedState] = useState("MA");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedTitle, setSelectedTitle] = useState("");
 
+  // antes de dar o post, verificar pelo front se pelo menos uma categoria foi selecionada
   return (
     <AdminPageStyle onSubmit="">
       <h1>Cadastro de produtos</h1>
@@ -22,7 +24,10 @@ function AdminPage() {
         selectedCategories={selectedCategories}
       />
       <h2>Nome da localidade</h2>
-      <InputTitle />
+      <InputTitle
+        setSelectedTitle={setSelectedTitle}
+        selectedTitle={selectedTitle}
+      />
       <h2>Pequena descrição</h2>
       <TextAreaDescription />
       <h2>URL da imagem</h2>

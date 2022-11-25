@@ -12,8 +12,7 @@ const categories = [
 ];
 
 export default function ContainerCategories({setSelectedCategories, selectedCategories}) {
-  // const [selectedCategories, setSelectedCategories] = useState([]);
-
+  // pelo menos UMA categoria deve ser selecionada!
   function handleInput(event) {
     const category = event.target.value;
 
