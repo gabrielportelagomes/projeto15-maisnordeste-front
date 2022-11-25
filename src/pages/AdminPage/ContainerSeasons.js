@@ -65,7 +65,7 @@ const ContainerSeasonsStyled = styled.section`
     align-items: center;
     margin-bottom: 10px;
     input {
-      width: 90px;
+      width: 100px;
       height: 38px;
     }
   }

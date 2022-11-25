@@ -5,14 +5,16 @@ const categories = [
   "Praia",
   "Serra",
   "Festas",
-  "Historia",
+  "História",
   "Gastronomia",
   "Lagoas e rios",
   "Aventura",
 ];
 
-export default function ContainerCategories({setSelectedCategories, selectedCategories}) {
-  // pelo menos UMA categoria deve ser selecionada!
+export default function ContainerCategories({
+  setSelectedCategories,
+  selectedCategories,
+}) {
   function handleInput(event) {
     const category = event.target.value;
 

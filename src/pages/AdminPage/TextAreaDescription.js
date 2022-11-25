@@ -8,11 +8,12 @@ export default function TextArea({
 
   return (
     <textarea
-      placeholder="(max 200 caracteres)"
+      placeholder="(max 100 caracteres)"
       type="text"
       onChange={textAreaControl}
       value={selectedDescription}
       required
+      maxLength="100"
     />
   );
 }

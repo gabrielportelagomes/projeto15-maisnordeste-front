@@ -5,7 +5,11 @@ import ContainerSeasonsStyled from "./ContainerSeasons";
 import TextAreaDescription from "./TextAreaDescription";
 import InputTitle from "./InputTitle";
 import InputImage from "./InputImage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Logo from "../../components/Logo";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import URL from "../../constants/url";
 
 function AdminPage() {
   const [selectedState, setSelectedState] = useState("MA");
@@ -18,8 +22,10 @@ function AdminPage() {
     baixaTemporada: "",
   });
 
+  const navigate = useNavigate();
+
   const form = {
-    admin: "erick1@gmail.com", //mudar depois que tiver o token
+    admin: "erick1@gmail.com", //=> userData.email
     title: selectedTitle,
     state: selectedState,
     description: selectedDescription,
@@ -51,41 +57,57 @@ function AdminPage() {
       alert("Selecione pelo menos uma categoria!");
       return;
     }
-    console.log(form);
+    const promise = axios.post(`${URL}/products`, form);
+    promise.then((res) => {
+      alert(res.data.message);
+      const answer = window.confirm("Deseja cadastrar outro produto?");
+      if (answer === true) {
+        window.location.reload();
+      } else {
+        navigate("/");
+      }
+    });
+    promise.catch((err) => {
+      alert(err.response.data.message);
+      navigate("/");
+      window.location.reload();
+    });
   }
 
-  // antes de dar o post, verificar pelo front se pelo menos uma categoria foi selecionada
   return (
-    <AdminPageStyle onSubmit={adicionar}>
-      <h1>Cadastro de produtos</h1>
-      <h2>Selecione o Estado</h2>
-      <ContainerStates setSelectedState={setSelectedState} />
-      <h2>Selecione a(s) categoria(s)</h2>
-      <ContainerCategories
-        setSelectedCategories={setSelectedCategories}
-        selectedCategories={selectedCategories}
-      />
-      <h2>Nome da localidade</h2>
-      <InputTitle
-        setSelectedTitle={setSelectedTitle}
-        selectedTitle={selectedTitle}
-      />
-      <h2>Pequena descrição</h2>
-      <TextAreaDescription
-        setSelectedDescription={setSelectedDescription}
-        selectedDescription={selectedDescription}
-      />
-      <h2>URL da imagem</h2>
-      <InputImage
-        setSelectedImage={setSelectedImage}
-        selectedImage={selectedImage}
-      />
-      <ContainerSeasonsStyled
-        selectedSeasons={selectedSeasons}
-        setSelectedSeasons={setSelectedSeasons}
-      />
-      <button type="submit">Adicionar</button>
-    </AdminPageStyle>
+    <>
+      <Logo />
+      <AdminPageStyle onSubmit={adicionar}>
+        <h1>Cadastro de produtos</h1>
+        <h2>Selecione o Estado</h2>
+        <ContainerStates setSelectedState={setSelectedState} />
+        <h2>Selecione a(s) categoria(s)</h2>
+        <ContainerCategories
+          setSelectedCategories={setSelectedCategories}
+          selectedCategories={selectedCategories}
+        />
+        <h2>Nome da localidade</h2>
+        <InputTitle
+          setSelectedTitle={setSelectedTitle}
+          selectedTitle={selectedTitle}
+        />
+        <h2>Pequena descrição</h2>
+        <TextAreaDescription
+          setSelectedDescription={setSelectedDescription}
+          selectedDescription={selectedDescription}
+        />
+        <h2>URL da imagem</h2>
+        <InputImage
+          setSelectedImage={setSelectedImage}
+          selectedImage={selectedImage}
+        />
+        <ContainerSeasonsStyled
+          selectedSeasons={selectedSeasons}
+          setSelectedSeasons={setSelectedSeasons}
+        />
+        <button type="submit">Adicionar</button>
+      </AdminPageStyle>
+    </>
   );
 }
 
