@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { MdArrowBackIos } from "react-icons/md";
 import Logo from "../../components/Logo";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import URL from "../../constants/url";
 import LoadingButton from "../../assets/styles/LoadingButton";
@@ -12,7 +12,7 @@ function SignUpPage({ emailForm }) {
   const [disabledButton, setDisabledButton] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [signUpForm, setSignUpForm] = useState({
-    email: emailForm.email,
+    email: "",
     cpf: "",
     name: "",
     surname: "",
@@ -20,6 +20,13 @@ function SignUpPage({ emailForm }) {
     telephone: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (emailForm.email === "") {
+      navigate("/login");
+    }
+    setSignUpForm({ ...signUpForm, email: emailForm.email });
+  }, []);
 
   function handleForm(event) {
     const { name, value } = event.target;
