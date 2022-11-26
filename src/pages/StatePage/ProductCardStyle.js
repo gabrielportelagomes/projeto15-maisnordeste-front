@@ -3,7 +3,7 @@ import styled from "styled-components";
 const ProductCardStyle = styled.section`
   display: flex;
   align-items: flex-end;
-  width: 360px;
+  width: 330px;
   height: 200px;
   border-radius: 10px;
   background-color: white;

@@ -1,7 +1,18 @@
 import styled from "styled-components";
 import { TagCardStyle } from "./TagCard";
+import { useNavigate } from "react-router-dom";
 
-export default function ProductCardDescription({ tags, description }) {
+export default function ProductCardDescription({
+  tags,
+  description,
+  idProduto,
+}) {
+  const navigate = useNavigate();
+
+  function comprar() {
+    navigate(`/produtos/:${idProduto}`);
+  }
+
   return (
     <ProductCardDescriptionStyle>
       <ul>
@@ -11,7 +22,7 @@ export default function ProductCardDescription({ tags, description }) {
       </ul>
       <nav>
         <h3>{description}</h3>
-        <button>Comprar</button>
+        <button onClick={comprar}>Comprar</button>
       </nav>
     </ProductCardDescriptionStyle>
   );

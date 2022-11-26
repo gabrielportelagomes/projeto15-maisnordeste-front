@@ -4,8 +4,9 @@ import ProductCardStyle from "./ProductCardStyle";
 import ProductCardDescription from "./ProductCardDescription";
 
 export default function ProductCard({ product }) {
-  const { title, tags, description, image } = product;
+  const { title, tags, description, image, _id } = product;
   const [isOpen, setIsOpen] = useState(false);
+  const idProduto = _id;
 
   function openMenu() {
     setIsOpen(!isOpen);
@@ -18,7 +19,11 @@ export default function ProductCard({ product }) {
         {!isOpen ? (
           ""
         ) : (
-          <ProductCardDescription tags={tags} description={description} />
+          <ProductCardDescription
+            tags={tags}
+            description={description}
+            idProduto={idProduto}
+          />
         )}
       </div>
     </ProductCardStyle>
