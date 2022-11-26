@@ -43,7 +43,7 @@ function HomePage() {
       </StatesContainer>
       <ButtonContainer>
         <Link to="/atividades">
-          <ActivitiesButton>Busque por categoria</ActivitiesButton>
+          <ActivitiesButton>Busque por atividade</ActivitiesButton>
         </Link>
       </ButtonContainer>
     </PageContainer>
