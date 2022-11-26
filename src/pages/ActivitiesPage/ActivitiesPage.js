@@ -6,21 +6,21 @@ import URL from "../../constants/url";
 import LoadingPage from "../../assets/styles/LoadingPage";
 import Header from "../../components/Header";
 
-function HomePage() {
-  const [states, setStates] = useState([]);
+function ActivitiesPage() {
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${URL}/states`)
+      .get(`${URL}/activities`)
       .then((response) => {
-        setStates(response.data);
+        setActivities(response.data);
       })
       .catch((error) => {
         alert(error.response.data);
       });
   }, []);
 
-  if (states.length === 0) {
+  if (activities.length === 0) {
     return (
       <PageContainer>
         <LoadingPage />
@@ -32,25 +32,25 @@ function HomePage() {
     <PageContainer>
       <Header />
       <Title>Qual Nordeste você quer conhecer?</Title>
-      <StatesContainer>
-        {states.map((state, id) => (
-          <Link key={id} to={`/estados/${state.state}`}>
-            <State key={id} stateImage={state.image} id={state.state}>
-              <p>{state.name}</p>
-            </State>
+      <ActivitiesContainer>
+        {activities.map((activity, id) => (
+          <Link key={id} to={`/atividades/${activity.tag}`}>
+            <Activity key={id} activityImage={activity.image} id={activity.sttagate}>
+              <p>{activity.name}</p>
+            </Activity>
           </Link>
         ))}
-      </StatesContainer>
+      </ActivitiesContainer>
       <ButtonContainer>
-        <Link to="/atividades">
-          <ActivitiesButton>Busque por atividade</ActivitiesButton>
+        <Link to="/">
+          <StatesButton>Busque por estado</StatesButton>
         </Link>
       </ButtonContainer>
     </PageContainer>
   );
 }
 
-export default HomePage;
+export default ActivitiesPage;
 
 const PageContainer = styled.div`
   width: 100%;
@@ -70,7 +70,7 @@ const Title = styled.h1`
   margin-top: 20px;
 `;
 
-const StatesContainer = styled.div`
+const ActivitiesContainer = styled.div`
   width: 340px;
   margin-top: 30px;
   margin-bottom: 70px;
@@ -80,14 +80,14 @@ const StatesContainer = styled.div`
   }
 `;
 
-const State = styled.div`
+const Activity = styled.div`
   width: 340px;
   height: 60px;
   display: flex;
   align-items: flex-end;
   border-radius: 5px;
   background-color: aliceblue;
-  background-image: url(${(props) => props.stateImage});
+  background-image: url(${(props) => props.activityImage});
   background-position: center;
   background-size: cover;
   cursor: pointer;
@@ -109,7 +109,7 @@ const ButtonContainer = styled.div`
   bottom: 30px;
 `;
 
-const ActivitiesButton = styled.button`
+const StatesButton = styled.button`
   width: 230px;
   height: 35px;
   background-color: #3003b2;
