@@ -26,7 +26,7 @@ function Header() {
         })
         .catch((error) => console.log(error.response.data.message));
     }
-  }, []);
+  }, [userAuth]);
 
   if (userAuth === undefined) {
     return (
@@ -44,15 +44,20 @@ function Header() {
     );
   }
 
-  console.log("teste");
-
   return (
     <HeaderContainer>
       <Logo />
-      <UserInfo>
-        <h3>Olá, {userData.name}</h3>
-        <IoIosArrowDown />
-      </UserInfo>
+      {userData ? (
+        <UserInfo>
+          <h3>Olá, {userData.name}</h3>
+          <IoIosArrowDown />
+        </UserInfo>
+      ) : (
+        <Welcome>
+          <h3>Bem-vindo(a)!</h3>
+        </Welcome>
+      )}
+
       <Link to="/carrinho">
         <CartIcon>
           <TiShoppingCart />
@@ -87,6 +92,18 @@ const CartIcon = styled.div`
   font-size: 40px;
   color: #ffffff;
   position: relative;
+`;
+
+const Welcome = styled.div`
+  width: 125px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  margin: 0 25px;
+  font-family: "Comfortaa", cursive;
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
 `;
 
 const UserInfo = styled.div`
