@@ -42,8 +42,8 @@ function HomePage() {
         ))}
       </StatesContainer>
       <ButtonContainer>
-        <Link to="/categorias">
-          <CategoriesButton>Busque por categoria</CategoriesButton>
+        <Link to="/atividades">
+          <ActivitiesButton>Busque por categoria</ActivitiesButton>
         </Link>
       </ButtonContainer>
     </PageContainer>
@@ -109,11 +109,12 @@ const ButtonContainer = styled.div`
   bottom: 30px;
 `;
 
-const CategoriesButton = styled.button`
+const ActivitiesButton = styled.button`
   width: 230px;
   height: 35px;
   background-color: #3003b2;
   font-weight: 700;
   font-size: 16px;
   color: #ffffff;
+  cursor: pointer;
 `;
