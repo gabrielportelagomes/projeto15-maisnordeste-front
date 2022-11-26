@@ -68,7 +68,7 @@ body {
 	background: radial-gradient(ellipse at right bottom, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
 	font-family: "Comfortaa";
 }
-ol, ul {
+ol, ul, li {
 	list-style: none;
 }
 blockquote, q {
