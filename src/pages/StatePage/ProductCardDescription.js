@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { TagCardStyle } from "./TagCard";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductCardDescription({
@@ -17,7 +16,7 @@ export default function ProductCardDescription({
     <ProductCardDescriptionStyle>
       <ul>
         {tags.map((tag) => (
-          <TagCardStyle key={tag}>{tag}</TagCardStyle>
+          <TagCardStyled key={tag}>{tag}</TagCardStyled>
         ))}
       </ul>
       <nav>
@@ -33,22 +32,17 @@ const ProductCardDescriptionStyle = styled.div`
   background-color: rgba(0, 0, 0, 0);
   flex-direction: row;
 
-  ul {
-    li {
-      width: 100px;
-      margin-bottom: 10px;
-      background-color: white;
-      opacity: 100%;
-    }
-  }
   nav {
     margin-left: 10px;
     display: flex;
     flex-direction: column;
-    background-color: lightgray;
+    background: rgba(0, 0, 0, 0.6);
     padding: 10px;
     border-radius: 10px;
     font-size: 15px;
+    h3 {
+      color: white;
+    }
 
     button {
       margin-top: 20px;
@@ -57,4 +51,17 @@ const ProductCardDescriptionStyle = styled.div`
       cursor: pointer;
     }
   }
+`;
+
+const TagCardStyled = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  font-size: 12px;
+  border-radius: 10px;
+  height: 20px;
+  margin-bottom: 10px;
+  width: 100px;
+  color: black;
 `;

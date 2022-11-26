@@ -13,10 +13,9 @@ const ProductCardStyle = styled.section`
   position: relative;
   div {
     width: 100%;
-    height: ${({ isOpen }) => (isOpen ? "200px" : "40px")}; // muda pra 200px
+    height: ${({ isOpen }) => (isOpen ? "200px" : "40px")};
     background-color: rgba(255, 255, 255, 0.5);
-    border-radius: ${({ isOpen }) =>
-      isOpen ? "10px" : "0 0 10px 10px"}; //0 0 10px 10px; // muda pra 10px
+    border-radius: ${({ isOpen }) => (isOpen ? "10px" : "0 0 10px 10px")};
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -26,16 +25,6 @@ const ProductCardStyle = styled.section`
       display: flex;
       background-color: rgba(0, 0, 0, 0);
       flex-direction: row;
-
-      ul {
-        li {
-          width: 100px;
-          margin-bottom: 10px;
-          background-color: white;
-          opacity: 100%;
-          cursor: default;
-        }
-      }
     }
   }
   h2 {
