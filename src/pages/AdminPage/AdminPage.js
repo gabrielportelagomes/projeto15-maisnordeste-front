@@ -6,12 +6,17 @@ import TextAreaDescription from "./TextAreaDescription";
 import InputTitle from "./InputTitle";
 import InputImage from "./InputImage";
 import { useState } from "react";
-import Logo from "../../components/Logo";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import URL from "../../constants/url";
 import { useUserData } from "../../providers/userData";
 import LoadingPage from "../../assets/styles/LoadingPage";
+import Header from "../../components/Header";
+import PageContainer from "./PageContainer";
+import { MdOutlineAppBlocking } from "react-icons/md";
+import Restricted from "./Restricted";
+import BackContainer from "./BackContainer";
+import AccessInfo from "./AccessInfo";
 
 function AdminPage() {
   const [selectedState, setSelectedState] = useState("MA");
@@ -27,7 +32,7 @@ function AdminPage() {
   const navigate = useNavigate();
 
   const form = {
-    admin: "", 
+    admin: "",
     title: selectedTitle,
     state: selectedState,
     description: selectedDescription,
@@ -79,21 +84,46 @@ function AdminPage() {
     });
   }
 
-  if (userData === undefined) {
+  if (!userData) {
     return (
-      <>
-        <LoadingPage />
-      </>
+      <PageContainer>
+        <Header />
+        <AccessInfo>
+          <LoadingPage />
+          <h1>
+            Tenha certeza de estar logado e de ter permissão para acessar essa
+            página!
+          </h1>
+          <BackContainer>
+            <Link to="/">
+              <p>Voltar para a página inicial</p>
+            </Link>
+          </BackContainer>
+        </AccessInfo>
+      </PageContainer>
     );
   }
 
   if (userData && userData.type !== "admin") {
-    alert("Usuário não autorizado!");
-    navigate("/");
+    return (
+      <PageContainer>
+        <Header />
+        <Restricted>
+          <MdOutlineAppBlocking />
+          <h1>Acesso restrito!</h1>
+        </Restricted>
+        <BackContainer>
+          <Link to="/">
+            <p>Voltar para a página inicial</p>
+          </Link>
+        </BackContainer>
+      </PageContainer>
+    );
   }
+
   return (
-    <>
-      <Logo />
+    <PageContainer>
+      <Header />
       <AdminPageStyle onSubmit={adicionar}>
         <h1>Cadastro de produtos</h1>
         <h2>Selecione o Estado</h2>
@@ -124,7 +154,7 @@ function AdminPage() {
         />
         <button type="submit">Adicionar</button>
       </AdminPageStyle>
-    </>
+    </PageContainer>
   );
 }
 
