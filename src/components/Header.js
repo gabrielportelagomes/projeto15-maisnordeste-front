@@ -67,7 +67,6 @@ function Header() {
   );
 }
 
-export default Header;
 
 const HeaderContainer = styled.div`
   width: 340px;
@@ -137,3 +136,5 @@ const ItemsCart = styled.div`
     color: #ffffff;
   }
 `;
+
+  export default Header;
