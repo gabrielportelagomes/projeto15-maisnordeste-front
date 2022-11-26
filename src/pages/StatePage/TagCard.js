@@ -1,20 +1,18 @@
 import styled from "styled-components";
 
-export default function TagCard({ tag, setSelectedTags, selectedTags }) {
+export default function TagCard({ tag, setSelectedTag, selectedTag }) {
   function selectTag(tag) {
-    if (!selectedTags.includes(tag)) {
-      const selected = [...selectedTags, tag];
-      setSelectedTags(selected);
-    } else if (selectedTags.includes(tag)) {
-      const selected = selectedTags.filter((s) => s !== tag);
-      setSelectedTags(selected);
+    if (selectedTag.includes(tag)) {
+      setSelectedTag("");
+    } else {
+      setSelectedTag(tag);
     }
   }
 
   return (
     <TagCardStyle
       onClick={() => selectTag(tag)}
-      selectedTags={selectedTags}
+      selectedTag={selectedTag}
       tag={tag}
     >
       {tag}
@@ -28,8 +26,8 @@ export const TagCardStyle = styled.li`
   justify-content: center;
   background-color: white;
   font-size: 12px;
-  opacity: ${({ tag, selectedTags }) =>
-    selectedTags.includes(tag) ? "100%" : "50%"};
+  opacity: ${({ tag, selectedTag }) =>
+    selectedTag.includes(tag) ? "100%" : "50%"};
   border-radius: 10px;
   height: 20px;
   cursor: pointer;

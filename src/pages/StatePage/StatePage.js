@@ -16,7 +16,8 @@ export default function StatePage() {
   const state = estado;
   const [stateName, setStateName] = useState("");
   const [productsFromState, setProductsFromState] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
   const tags = [
     "Praia",
@@ -27,6 +28,14 @@ export default function StatePage() {
     "Aventura",
     "Lagoas e rios",
   ];
+
+  function returnFiltered(allProducts, selectedTag) {
+    if (selectedTag === "") {
+      return allProducts;
+    } else {
+      return allProducts.filter((p) => p.tags.includes(selectedTag));
+    }
+  }
 
   useEffect(() => {
     axios
@@ -42,13 +51,13 @@ export default function StatePage() {
   useEffect(() => {
     const promise = axios.get(`${URL}/products/${state}`);
     promise.then((res) => {
-      setProductsFromState(res.data);
+      setProductsFromState(returnFiltered(res.data, selectedTag));
     });
     promise.catch((err) => {
       console.log(err.response.data);
       navigate("*");
     });
-  }, []);
+  }, [selectedTag]);
 
   return (
     <StatePageContainer>
@@ -59,9 +68,8 @@ export default function StatePage() {
           <TagCard
             tag={tag}
             key={tag}
-            tags={tags}
-            setSelectedTags={setSelectedTags}
-            selectedTags={selectedTags}
+            setSelectedTag={setSelectedTag}
+            selectedTag={selectedTag}
           />
         ))}
       </TagsContainer>
