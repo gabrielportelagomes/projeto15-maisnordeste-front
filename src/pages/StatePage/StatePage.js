@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import URL from "../../constants/url";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Logo from "../../components/Logo";
 import StatePageContainer from "./StatePageContainer";
 import Header from "../../components/Header";
 import TagsContainer from "./TagsContainer";
@@ -26,7 +25,6 @@ export default function StatePage() {
     "Aventura",
     "Lagoas e rios",
   ];
-  console.log(productsFromState);
 
   useEffect(() => {
     axios

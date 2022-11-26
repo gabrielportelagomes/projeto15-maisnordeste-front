@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { TagCardStyle } from "./TagCard";
 import ProductCardStyle from "./ProductCardStyle";
+import ProductCardDescription from "./ProductCardDescription";
 
 export default function ProductCard({ product }) {
-  const { title, tags, description, image } = product;
+  const { title, tags, description, image, _id } = product;
   const [isOpen, setIsOpen] = useState(false);
+  const idProduto = _id;
 
   function openMenu() {
     setIsOpen(!isOpen);
@@ -12,19 +14,16 @@ export default function ProductCard({ product }) {
 
   return (
     <ProductCardStyle image={image} isOpen={isOpen}>
-      <div onClick={openMenu}>
-        <h2>{title}</h2>
+      <div>
+        <h2 onClick={openMenu}>{title}</h2>
         {!isOpen ? (
-          <></>
+          ""
         ) : (
-          <div>
-            <ul>
-              {tags.map((tag) => (
-                <TagCardStyle key={tag}>{tag}</TagCardStyle>
-              ))}
-            </ul>
-            <nav>{description}</nav>
-          </div>
+          <ProductCardDescription
+            tags={tags}
+            description={description}
+            idProduto={idProduto}
+          />
         )}
       </div>
     </ProductCardStyle>

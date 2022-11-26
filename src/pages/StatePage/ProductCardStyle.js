@@ -3,7 +3,7 @@ import styled from "styled-components";
 const ProductCardStyle = styled.section`
   display: flex;
   align-items: flex-end;
-  width: 360px;
+  width: 330px;
   height: 200px;
   border-radius: 10px;
   background-color: white;
@@ -22,7 +22,6 @@ const ProductCardStyle = styled.section`
     align-items: flex-start;
     transition: all 0.2s;
     padding: 10px;
-    cursor: pointer;
     div {
       display: flex;
       background-color: rgba(0, 0, 0, 0);
@@ -34,20 +33,15 @@ const ProductCardStyle = styled.section`
           margin-bottom: 10px;
           background-color: white;
           opacity: 100%;
+          cursor: default;
         }
-      }
-      nav {
-        margin-left: 10px;
-        display: flex;
-        background-color: #ffbaba;
-        padding: 10px;
-        border-radius: 10px;
       }
     }
   }
   h2 {
     color: black;
+    cursor: pointer;
   }
 `;
 
-export default ProductCardStyle
+export default ProductCardStyle;
