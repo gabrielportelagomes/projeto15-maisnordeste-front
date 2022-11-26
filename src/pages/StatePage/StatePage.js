@@ -1,8 +1,9 @@
-// import { useUserData } from "../../providers/userData";
 import { useNavigate, useParams } from "react-router-dom";
-import URL from "../../constants/url";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
+// import { useUserData } from "../../providers/userData";
+import URL from "../../constants/url";
 import StatePageContainer from "./StatePageContainer";
 import Header from "../../components/Header";
 import TagsContainer from "./TagsContainer";
@@ -15,6 +16,7 @@ export default function StatePage() {
   const state = estado;
   const [stateName, setStateName] = useState("");
   const [productsFromState, setProductsFromState] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const navigate = useNavigate();
   const tags = [
     "Praia",
@@ -49,22 +51,26 @@ export default function StatePage() {
   }, []);
 
   return (
-    <>
-      <StatePageContainer>
-        <Header />
-        <h1>{stateName}</h1>
-        <TagsContainer>
-          {tags.map((tag) => (
-            <TagCard tag={tag} key={tag} />
-          ))}
-        </TagsContainer>
+    <StatePageContainer>
+      <Header />
+      <h1>{stateName}</h1>
+      <TagsContainer>
+        {tags.map((tag) => (
+          <TagCard
+            tag={tag}
+            key={tag}
+            tags={tags}
+            setSelectedTags={setSelectedTags}
+            selectedTags={selectedTags}
+          />
+        ))}
+      </TagsContainer>
 
-        <ProductsContainer>
-          {productsFromState.map((product) => (
-            <ProductCard product={product} key={product.title} />
-          ))}
-        </ProductsContainer>
-      </StatePageContainer>
-    </>
+      <ProductsContainer>
+        {productsFromState.map((product) => (
+          <ProductCard product={product} key={product.title} />
+        ))}
+      </ProductsContainer>
+    </StatePageContainer>
   );
 }
