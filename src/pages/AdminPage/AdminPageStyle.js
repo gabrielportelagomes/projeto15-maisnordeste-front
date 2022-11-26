@@ -5,7 +5,7 @@ const AdminPageStyle = styled.form`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 80px;
+  margin-top: 10px;
   .container-states {
     display: flex;
   }

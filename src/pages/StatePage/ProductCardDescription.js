@@ -9,7 +9,7 @@ export default function ProductCardDescription({
   const navigate = useNavigate();
 
   function comprar() {
-    navigate(`/produtos/:${idProduto}`);
+    navigate(`/produtos/${idProduto}`);
   }
 
   return (
