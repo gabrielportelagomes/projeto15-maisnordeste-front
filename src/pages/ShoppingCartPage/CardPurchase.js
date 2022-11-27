@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 import CardPurchaseStyle from "./CardPurchaseStyle";
 import { BsFillCheckCircleFill as CheckIcon } from "react-icons/bs";
 import { BsFillXCircleFill as CloseIcon } from "react-icons/bs";
@@ -7,35 +8,62 @@ import { IoIosRemoveCircleOutline as MinusIcon } from "react-icons/io";
 import { IoIosAddCircleOutline as PlusIcon } from "react-icons/io";
 import { BsFillTrashFill as TrashIcon } from "react-icons/bs";
 
-export default function CardPurchase() {
+export default function CardPurchase({ purchase }) {
+  const { user, subtotal, title, image, season, amount, breakfast, transport } =
+    purchase;
+  const pricePerUnity = subtotal / amount;
+  const [updatedAmount, setUpdatedAmount] = useState(amount);
+  const [updatedSubTotal, setUpdatedSubTotal] = useState(subtotal);
+
+  useEffect(() => {}, [updatedAmount, updatedSubTotal]);
+  function setAmount(value) {
+    if (updatedAmount === 1 && value === -1) {
+      return;
+    }
+    setUpdatedAmount(updatedAmount + value);
+  }
+  useEffect(() => {
+    setUpdatedSubTotal(updatedAmount * pricePerUnity);
+  }, [updatedAmount]);
+
   return (
     <CardPurchaseStyle>
-      <Top>Maragogi</Top>
+      <Top>{title}</Top>
       <Middle>
-        <img src="https://i.imgur.com/vLme3wah.jpg" alt="foto" />
+        <img src={image} alt={title} />
         <PurchaseSummary>
           <header>Resumo da compra</header>
           <li>
             <CalendarIcon color="darkblue" />
-            Quando? Mai-Jun
+            Quando? {season}
           </li>
           <li>
-            <CheckIcon color="green" />
+            {breakfast ? (
+              <CheckIcon color="green" />
+            ) : (
+              <CloseIcon color="red" />
+            )}
             Café da manhã
           </li>
           <li>
-            <CloseIcon color="red" />
+            {transport ? (
+              <CheckIcon color="green" />
+            ) : (
+              <CloseIcon color="red" />
+            )}
             Translado
           </li>
-          <h3>R$ 1.600,00</h3>
+          <h3>
+            Valor: R$ {(updatedSubTotal / 100).toFixed(2).replace(".", ",")}
+          </h3>
         </PurchaseSummary>
       </Middle>
       <Bottom>
         <AmountContainer>
           <div>
-            <MinusIcon />
-            <h3>1</h3>
-            <PlusIcon />
+            <MinusIcon onClick={() => setAmount(-1)} />
+            <h3>{updatedAmount}</h3>
+            <PlusIcon onClick={() => setAmount(+1)} />
           </div>
           <p>Alterar quantidade</p>
         </AmountContainer>
@@ -61,6 +89,9 @@ const Middle = styled.section`
   justify-content: space-between;
   img {
     width: 50%;
+    border-radius: 0 10px 10px 0;
+    height: 100px;
+    object-fit: cover;
   }
 `;
 const PurchaseSummary = styled.ul`
@@ -86,6 +117,8 @@ const PurchaseSummary = styled.ul`
     justify-content: flex-end;
     font-weight: 700;
     font-size: 14px;
+    margin-top: 5px;
+    padding-right: 5px;
   }
 `;
 const Bottom = styled.section`
@@ -97,7 +130,8 @@ const AmountContainer = styled.div`
   flex-direction: column;
   width: 50%;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
+
   div {
     display: flex;
     background-color: white;
@@ -106,7 +140,7 @@ const AmountContainer = styled.div`
     width: 70px;
     height: 25px;
     border-radius: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     h3 {
       margin: 0 5px;
       font-size: 13px;
@@ -128,6 +162,7 @@ const RemoveContainer = styled.div`
   margin-right: 10px;
   div {
     display: flex;
+    margin-bottom: 5px;
     cursor: pointer;
     p {
       font-size: 10px;

@@ -1,16 +1,20 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export default function AddProductsContainer() {
+export default function AddProductsLoggedOut() {
   return (
-    <AddProductsContainerStyle>
-      <button>Escolha mais produtos</button>
-      <h2>Para finalizar sua compra, faça o login!</h2>
-      <p>Primeira vez? Cadastre-se!</p>
-    </AddProductsContainerStyle>
+    <AddProductsLoggedOutStyle>
+      <Link to="/">
+        <button>Escolha mais produtos</button>
+      </Link>
+      <Link to="/login">
+        <h2>Para finalizar sua compra, faça o login!</h2>
+      </Link>
+    </AddProductsLoggedOutStyle>
   );
 }
 
-const AddProductsContainerStyle = styled.section`
+const AddProductsLoggedOutStyle = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +26,7 @@ const AddProductsContainerStyle = styled.section`
     background-color: #3003b2;
     color: white;
     margin: 20px auto;
+    cursor: pointer;
   }
 
   h2 {
