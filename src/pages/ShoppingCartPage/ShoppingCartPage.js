@@ -2,9 +2,10 @@ import CartPageContainer from "./CartPageContainer";
 import Header from "../../components/Header";
 import PurchasesContainer from "./PurchasesContainer";
 import CardPurchase from "./CardPurchase";
-import AddProductsContainer from "./AddProductsContainer";
+import AddProductsLoggedOut from "./AddProductsLoggedOut";
 import TotalFooter from "./TotalFooter";
 import EmptyCardContainer from "./EmptyCartContainer";
+import AddProductsLoggedIn from "./AddProductsLoggedIn";
 
 function ShoppingCartPage() {
   return (
@@ -16,7 +17,8 @@ function ShoppingCartPage() {
         <CardPurchase />
         {/* <EmptyCardContainer/> */}
       </PurchasesContainer>
-      <AddProductsContainer />
+      <AddProductsLoggedOut />
+      {/* <AddProductsLoggedIn /> */}
       <TotalFooter />
     </CartPageContainer>
   );

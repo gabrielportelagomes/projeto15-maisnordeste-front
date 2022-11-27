@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
-export default function AddProductsContainer() {
+export default function AddProductsLoggedOut() {
   return (
-    <AddProductsContainerStyle>
+    <AddProductsLoggedOutStyle>
       <button>Escolha mais produtos</button>
       <h2>Para finalizar sua compra, faça o login!</h2>
       <p>Primeira vez? Cadastre-se!</p>
-    </AddProductsContainerStyle>
+    </AddProductsLoggedOutStyle>
   );
 }
 
-const AddProductsContainerStyle = styled.section`
+const AddProductsLoggedOutStyle = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
