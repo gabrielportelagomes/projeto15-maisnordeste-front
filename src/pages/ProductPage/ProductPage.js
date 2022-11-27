@@ -4,13 +4,46 @@ import { HiMinusCircle, HiPlusCircle } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import URL from "../../constants/url";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingPage from "../../assets/styles/LoadingPage";
 import { BsFillCheckCircleFill } from "react-icons/bs";
+import { useUserData } from "../../providers/userData";
+import { useAuth } from "../../providers/auth";
 
 function ProductPage() {
+  const navigate = useNavigate();
   const { idProduto } = useParams();
+  const { userAuth } = useAuth();
+  const { userData } = useUserData();
+  const seasons = [
+    { season: "Natal", seasonTag: "natal" },
+    { season: "Carnaval", seasonTag: "carnaval" },
+    { season: "Páscoa", seasonTag: "pascoa" },
+    { season: "Réveillon", seasonTag: "reveillon" },
+  ];
+  const lowSeasons = [
+    {
+      season: "Baixa temporada 1",
+      months: "Mai-Jun",
+      seasonTag: "baixaTemporada1",
+    },
+
+    {
+      season: "Baixa Temporada 2",
+      months: "Set-Out",
+      seasonTag: "baixaTemporada2",
+    },
+  ];
   const [product, setProduct] = useState();
+  const [season, setSeason] = useState();
+  const [seasonTag, setseasonTag] = useState();
+  const [seasonValue, setSeasonValue] = useState();
+  const [breakfast, setBreakfast] = useState(false);
+  const [transport, setTransport] = useState(false);
+  const [amount, setAmout] = useState(1);
+  const [total, setTotal] = useState();
+  const [showTotal, setShowTotal] = useState();
+  const [disableButton, setDisableButton] = useState(true);
 
   useEffect(() => {
     axios
@@ -20,6 +53,69 @@ function ProductPage() {
       })
       .catch((error) => console.log(error.response.data));
   }, []);
+
+  useEffect(() => {
+    if (seasonValue) {
+      let value = amount * seasonValue;
+      if (breakfast) {
+        value += amount * product.prices.cafe;
+      }
+      if (transport) {
+        value += amount * product.prices.translado;
+      }
+      setTotal(value);
+      let newValue = `${value}`;
+      newValue = newValue.replace(/\D/g, "");
+      newValue = newValue.replace(/(\d)(\d{2})$/, "$1,$2");
+      newValue = newValue.replace(/(?=(\d{3})+(\D))\B/g, ".");
+      setShowTotal(newValue);
+    }
+  }, [seasonValue, breakfast, transport, amount]);
+
+  function increaseAmount() {
+    if (!seasonTag) {
+      alert("Selecione uma temporada!");
+      return;
+    }
+
+    const stock = product.stock[seasonTag];
+    if (amount < stock) {
+      setAmout(amount + 1);
+    } else {
+      alert("Quantidade limite atingida!");
+    }
+  }
+
+  function decreaseAmount() {
+    if (amount > 1) {
+      setAmout(amount - 1);
+    }
+  }
+
+  function addToCart() {
+    const body = {
+      user: userData._id,
+      subtotal: total,
+      idProduct: idProduto,
+      title: product.title,
+      image: product.image,
+      state: product.state,
+      season: season,
+      seasonTag: seasonTag,
+      amount: amount,
+      breakfast: breakfast,
+      transport: transport,
+    };
+
+    axios
+      .post(`${URL}/cart`, body, {
+        headers: {
+          Authorization: `Bearer ${userAuth.token}`,
+        },
+      })
+      .then(() => navigate("/carrinho"))
+      .catch((error) => console.log(error.response.data));
+  }
 
   if (!product) {
     return (
@@ -45,47 +141,90 @@ function ProductPage() {
           </Tags>
         </DescriptionContainer>
       </ProductOverview>
-      <SeasonsTitle>Selecione uma temporada</SeasonsTitle>
-      <Seasons>
-        <Season color="#ff9632">Natal</Season>
-        <Season color="#ff9632">Carnaval</Season>
-        <Season color="#ff9632">Páscoa</Season>
-        <Season color="#ff9632">Réveillon</Season>
-        <Season color="#5bdec3">
-          Baixa Temporada 1 <p>Maio-Junho</p>
-        </Season>
-        <Season color="#5bdec3">
-          Baixa Temporada 2 <p>Setembro-Outubro</p>
-        </Season>
-      </Seasons>
-      <AdditionalContainer>
-        <h1>Adicionais (opcional) :</h1>
-        <Additional>
-          <p>Café da manhã</p>
-          <CheckIcon>
-            <BsFillCheckCircleFill />
-          </CheckIcon>
-        </Additional>
-        <Additional>
-          <p>Translado</p>
-          <CheckIcon>
-            <BsFillCheckCircleFill />
-          </CheckIcon>
-        </Additional>
-      </AdditionalContainer>
-      <AmountTitle>Quantidade:</AmountTitle>
-      <AmountContainer>
-        <Icon>
-          <HiMinusCircle />
-        </Icon>
-        <Amount>0</Amount>
-        <Icon>
-          <HiPlusCircle />
-        </Icon>
-      </AmountContainer>
+      <OptionsContainer>
+        <SeasonsTitle>Selecione uma temporada</SeasonsTitle>
+        <Seasons>
+          {seasons.map((s, id) => (
+            <Season
+              onClick={() => {
+                setSeason(s.season);
+                setseasonTag(s.seasonTag);
+                setSeasonValue(product.prices.altaTemporada);
+                setAmout(1);
+                setDisableButton(false);
+              }}
+              color={season === s.season ? "#4ECB71" : "#ff9632"}
+              key={id}
+            >
+              {s.season}
+            </Season>
+          ))}
+          {lowSeasons.map((s, id) => (
+            <Season
+              onClick={() => {
+                setSeason(s.season);
+                setseasonTag(s.seasonTag);
+                setSeasonValue(product.prices.baixaTemporada);
+                setAmout(1);
+                setDisableButton(false);
+              }}
+              color={season === s.season ? "#4ECB71" : "#ff9632"}
+              key={id}
+            >
+              {s.season}
+              <p>{s.months}</p>
+            </Season>
+          ))}
+        </Seasons>
+        <AdditionalContainer>
+          <h2>Adicionais (opcional) :</h2>
+          <Additional>
+            <p>Café da manhã</p>
+            <CheckBreakfast
+              onClick={() => {
+                setBreakfast(!breakfast);
+              }}
+              color={breakfast ? "#4ECB71" : "#ffffff"}
+            >
+              <BsFillCheckCircleFill />
+            </CheckBreakfast>
+          </Additional>
+          <Additional>
+            <p>Translado</p>
+            <CheckTransport
+              onClick={() => {
+                setTransport(!transport);
+              }}
+              color={transport ? "#4ECB71" : "#ffffff"}
+            >
+              <BsFillCheckCircleFill />
+            </CheckTransport>
+          </Additional>
+        </AdditionalContainer>
+        <AmountTitle>Quantidade:</AmountTitle>
+        <AmountContainer>
+          <Icon onClick={decreaseAmount}>
+            <HiMinusCircle />
+          </Icon>
+          <Amount>{amount}</Amount>
+          <Icon onClick={increaseAmount}>
+            <HiPlusCircle />
+          </Icon>
+        </AmountContainer>
+      </OptionsContainer>
       <Footer>
-        <p>Total: R$ </p>
-        <AddButton>Adicionar</AddButton>
+        <p>Total: R$ {showTotal}</p>
+        {!userData ? (
+          <Link to={"/login"}>
+            <LoginButton>Faça o login</LoginButton>
+          </Link>
+        ) : disableButton ? (
+          <AddButton disabled={disableButton}>Adicionar</AddButton>
+        ) : (
+          <AddButton disabled={disableButton} onClick={addToCart}>
+            Adicionar
+          </AddButton>
+        )}
       </Footer>
     </PageContainer>
   );
@@ -172,11 +311,20 @@ const Tag = styled.div`
   }
 `;
 
-const SeasonsTitle = styled.h1`
+const OptionsContainer = styled.div`
+  width: 340px;
+  overflow-y: auto;
   margin-top: 260px;
+  margin-bottom: 90px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const SeasonsTitle = styled.h2`
   font-family: "Comfortaa", cursive;
   font-weight: 400;
-  font-size: 28px;
+  font-size: 24px;
   color: #ffffff;
   margin-bottom: 10px;
 `;
@@ -201,7 +349,7 @@ const Season = styled.div`
   font-size: 20px;
   color: #000000;
   text-align: center;
-  margin: 10px 20px;
+  margin: 10px 10px;
   p {
     font-size: 10px;
     margin-top: 5px;
@@ -217,9 +365,10 @@ const AdditionalContainer = styled.div`
   font-family: "Comfortaa", cursive;
   font-weight: 400;
   color: #ffffff;
-  h1 {
+  h2 {
     width: 100%;
-    font-size: 28px;
+    font-size: 24px;
+    color: #ffffff;
   }
 `;
 
@@ -234,8 +383,14 @@ const Additional = styled.div`
   }
 `;
 
-const CheckIcon = styled.div`
+const CheckBreakfast = styled.div`
   font-size: 24px;
+  color: ${(props) => props.color};
+`;
+
+const CheckTransport = styled.div`
+  font-size: 24px;
+  color: ${(props) => props.color};
 `;
 
 const AmountTitle = styled.p`
@@ -292,13 +447,27 @@ const Footer = styled.div`
   }
 `;
 
+const LoginButton = styled.button`
+  width: 110px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d52b2b;
+  margin-right: 20px;
+  font-family: "Comfortaa", cursive;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+`;
+
 const AddButton = styled.button`
   width: 110px;
   height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #d9d9d9;
+  background-color: ${(props) => (props.disabled ? "#d9d9d9" : "#4ECB71")};
   margin-right: 20px;
   font-family: "Comfortaa", cursive;
   font-weight: 700;
