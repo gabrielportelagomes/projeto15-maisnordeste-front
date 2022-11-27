@@ -15,6 +15,7 @@ import SignInPage from "./pages/SignInPage/SignInPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import StatePage from "./pages/StatePage/StatePage";
 import { AuthProvider } from "./providers/auth";
+import { CartDataProvider } from "./providers/cartData";
 import { UserDataProvider } from "./providers/userData";
 
 function App() {
@@ -27,38 +28,43 @@ function App() {
       <GlobalStyle />
       <AuthProvider>
         <UserDataProvider>
-          <ScreenContainer>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="/atividades" element={<ActivitiesPage />} />
-              <Route path="/atividades/:atividade" element={<ActivityPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/pedidos" element={<OrdersPage />} />
-              <Route path="/produtos/:idProduto" element={<ProductPage />} />
-              <Route path="/carrinho" element={<ShoppingCartPage />} />
-              <Route
-                path="/login"
-                element={
-                  <SignInPage
-                    emailForm={emailForm}
-                    setEmailForm={setEmailForm}
-                  />
-                }
-              />
-              <Route
-                path="/cadastro"
-                element={
-                  <SignUpPage
-                    emailForm={emailForm}
-                    setEmailForm={setEmailForm}
-                  />
-                }
-              />
-              <Route path="/estados/:estado" element={<StatePage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </ScreenContainer>
+          <CartDataProvider>
+            <ScreenContainer>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/atividades" element={<ActivitiesPage />} />
+                <Route
+                  path="/atividades/:atividade"
+                  element={<ActivityPage />}
+                />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/pedidos" element={<OrdersPage />} />
+                <Route path="/produtos/:idProduto" element={<ProductPage />} />
+                <Route path="/carrinho" element={<ShoppingCartPage />} />
+                <Route
+                  path="/login"
+                  element={
+                    <SignInPage
+                      emailForm={emailForm}
+                      setEmailForm={setEmailForm}
+                    />
+                  }
+                />
+                <Route
+                  path="/cadastro"
+                  element={
+                    <SignUpPage
+                      emailForm={emailForm}
+                      setEmailForm={setEmailForm}
+                    />
+                  }
+                />
+                <Route path="/estados/:estado" element={<StatePage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </ScreenContainer>
+          </CartDataProvider>
         </UserDataProvider>
       </AuthProvider>
     </BrowserRouter>

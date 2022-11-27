@@ -8,10 +8,12 @@ import { useUserData } from "../providers/userData";
 import Logo from "./Logo";
 import URL from "../constants/url";
 import { IoIosArrowDown } from "react-icons/io";
+import { useCartData } from "../providers/cartData";
 
 function Header() {
   const { userAuth } = useAuth();
   const { userData, setUserData } = useUserData();
+  const { cartData, setCartData } = useCartData();
 
   useEffect(() => {
     if (userAuth !== undefined) {
@@ -23,6 +25,21 @@ function Header() {
         })
         .then((response) => {
           setUserData(response.data);
+        })
+        .catch((error) => console.log(error.response.data.message));
+    }
+  }, [userAuth]);
+
+  useEffect(() => {
+    if (userAuth !== undefined) {
+      axios
+        .get(`${URL}/cart`, {
+          headers: {
+            Authorization: `Bearer ${userAuth.token}`,
+          },
+        })
+        .then((response) => {
+          setCartData(response.data);
         })
         .catch((error) => console.log(error.response.data.message));
     }
@@ -57,16 +74,31 @@ function Header() {
           <h3>Bem-vindo(a)!</h3>
         </Welcome>
       )}
-
-      <Link to="/carrinho">
-        <CartIcon>
-          <TiShoppingCart />
-        </CartIcon>
-      </Link>
+      {!cartData ? (
+        <Link to="/carrinho">
+          <CartIcon>
+            <TiShoppingCart />
+          </CartIcon>
+        </Link>
+      ) : cartData.length === 0 ? (
+        <Link to="/carrinho">
+          <CartIcon>
+            <TiShoppingCart />
+          </CartIcon>
+        </Link>
+      ) : (
+        <Link to="/carrinho">
+          <CartIcon>
+            <TiShoppingCart />
+            <ItemsCart>
+              <span>{cartData.length}</span>
+            </ItemsCart>
+          </CartIcon>
+        </Link>
+      )}
     </HeaderContainer>
   );
 }
-
 
 const HeaderContainer = styled.div`
   width: 340px;
@@ -84,13 +116,6 @@ const SignInButton = styled.button`
   font-size: 18px;
   color: #ffffff;
   cursor: pointer;
-`;
-const CartIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  font-size: 40px;
-  color: #ffffff;
-  position: relative;
 `;
 
 const Welcome = styled.div`
@@ -118,6 +143,14 @@ const UserInfo = styled.div`
   color: #ffffff;
 `;
 
+const CartIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+  color: #ffffff;
+  position: relative;
+`;
+
 const ItemsCart = styled.div`
   width: 20px;
   height: 20px;
@@ -137,4 +170,4 @@ const ItemsCart = styled.div`
   }
 `;
 
-  export default Header;
+export default Header;
