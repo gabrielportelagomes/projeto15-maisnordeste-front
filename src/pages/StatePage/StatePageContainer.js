@@ -8,8 +8,10 @@ const StatePageContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome */
   }
   h1 {
     margin-top: 20px;
