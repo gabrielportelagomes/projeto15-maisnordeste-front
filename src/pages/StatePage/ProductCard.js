@@ -13,9 +13,9 @@ export default function ProductCard({ product }) {
   }
 
   return (
-    <ProductCardStyle image={image} isOpen={isOpen}>
+    <ProductCardStyle onClick={openMenu} image={image} isOpen={isOpen}>
       <div>
-        <h2 onClick={openMenu}>{title}</h2>
+        <h2>{title}</h2>
         {!isOpen ? (
           ""
         ) : (

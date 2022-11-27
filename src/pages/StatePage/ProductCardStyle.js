@@ -11,6 +11,7 @@ const ProductCardStyle = styled.section`
   background-size: cover;
   margin-bottom: 30px;
   position: relative;
+  cursor: pointer;
   div {
     width: 100%;
     height: ${({ isOpen }) => (isOpen ? "200px" : "40px")};
@@ -29,7 +30,6 @@ const ProductCardStyle = styled.section`
   }
   h2 {
     color: black;
-    cursor: pointer;
   }
 `;
 

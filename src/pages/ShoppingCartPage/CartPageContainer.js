@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StatePageContainer = styled.div`
+const CartPageContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
@@ -21,4 +21,4 @@ const StatePageContainer = styled.div`
     width: 100%;
   }
 `;
-export default StatePageContainer;
+export default CartPageContainer;
