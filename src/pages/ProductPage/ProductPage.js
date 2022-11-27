@@ -162,13 +162,13 @@ function ProductPage() {
           {lowSeasons.map((s, id) => (
             <Season
               onClick={() => {
-                setSeason(s.season);
+                setSeason(s.months);
                 setseasonTag(s.seasonTag);
                 setSeasonValue(product.prices.baixaTemporada);
                 setAmout(1);
                 setDisableButton(false);
               }}
-              color={season === s.season ? "#4ECB71" : "#ff9632"}
+              color={season === s.months ? "#4ECB71" : "#ff9632"}
               key={id}
             >
               {s.season}
@@ -350,6 +350,7 @@ const Season = styled.div`
   color: #000000;
   text-align: center;
   margin: 10px 10px;
+  cursor: pointer;
   p {
     font-size: 10px;
     margin-top: 5px;
@@ -386,11 +387,13 @@ const Additional = styled.div`
 const CheckBreakfast = styled.div`
   font-size: 24px;
   color: ${(props) => props.color};
+  cursor: pointer;
 `;
 
 const CheckTransport = styled.div`
   font-size: 24px;
   color: ${(props) => props.color};
+  cursor: pointer;
 `;
 
 const AmountTitle = styled.p`
@@ -417,6 +420,7 @@ const AmountContainer = styled.div`
 const Icon = styled.p`
   font-size: 40px;
   color: #000000;
+  cursor: pointer;
 `;
 
 const Amount = styled.p`
@@ -459,6 +463,7 @@ const LoginButton = styled.button`
   font-weight: 700;
   font-size: 14px;
   color: #ffffff;
+  cursor: pointer;
 `;
 
 const AddButton = styled.button`
@@ -473,4 +478,5 @@ const AddButton = styled.button`
   font-weight: 700;
   font-size: 16px;
   color: #ffffff;
+  cursor: pointer;
 `;
