@@ -1,49 +1,78 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import { HiMinusCircle, HiPlusCircle } from "react-icons/hi";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import URL from "../../constants/url";
+import { useParams } from "react-router-dom";
+import LoadingPage from "../../assets/styles/LoadingPage";
+import { BsFillCheckCircleFill } from "react-icons/bs";
 
 function ProductPage() {
+  const { idProduto } = useParams();
+  const [product, setProduct] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${URL}/product/${idProduto}`)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => console.log(error.response.data));
+  }, []);
+
+  if (!product) {
+    return (
+      <PageContainer>
+        <LoadingPage />
+      </PageContainer>
+    );
+  }
+
   return (
     <PageContainer>
       <Header />
-      <ProductOverview>
-        <Locality>Pico do Cabugi - RN</Locality>
+      <ProductOverview image={product.image}>
+        <Locality>{product.title}</Locality>
         <DescriptionContainer>
-          <Description>
-            Maior montanha de origem vulcânica do RN. Acampar lá em cima é uma
-            experiência inesquecível!
-          </Description>
+          <Description>{product.description}</Description>
           <Tags>
-            <Tag>
-              <p>Serra</p>
-            </Tag>
-            <Tag>
-              <p>Aventura</p>
-            </Tag>
+            {product.tags.map((tag, id) => (
+              <Tag key={id}>
+                <p>{tag}</p>
+              </Tag>
+            ))}
           </Tags>
         </DescriptionContainer>
       </ProductOverview>
       <SeasonsTitle>Selecione uma temporada</SeasonsTitle>
       <Seasons>
-        <Season color="#ff9632">
-          Natal
-          <p>22/12 a 27/12</p>
+        <Season color="#ff9632">Natal</Season>
+        <Season color="#ff9632">Carnaval</Season>
+        <Season color="#ff9632">Páscoa</Season>
+        <Season color="#ff9632">Réveillon</Season>
+        <Season color="#5bdec3">
+          Baixa Temporada 1 <p>Maio-Junho</p>
         </Season>
-        <Season color="#ff9632">
-          Carnaval
-          <p>22/12 a 27/12</p>
+        <Season color="#5bdec3">
+          Baixa Temporada 2 <p>Setembro-Outubro</p>
         </Season>
-        <Season color="#ff9632">
-          Páscoa
-          <p>22/12 a 27/12</p>
-        </Season>
-        <Season color="#ff9632">
-          Réveillon
-          <p>22/12 a 27/12</p>
-        </Season>
-        <Season color="#5bdec3">Baixa Temporada 1</Season>
-        <Season color="#5bdec3">Baixa Temporada 2</Season>
       </Seasons>
+      <AdditionalContainer>
+        <h1>Adicionais (opcional) :</h1>
+        <Additional>
+          <p>Café da manhã</p>
+          <CheckIcon>
+            <BsFillCheckCircleFill />
+          </CheckIcon>
+        </Additional>
+        <Additional>
+          <p>Translado</p>
+          <CheckIcon>
+            <BsFillCheckCircleFill />
+          </CheckIcon>
+        </Additional>
+      </AdditionalContainer>
       <AmountTitle>Quantidade:</AmountTitle>
       <AmountContainer>
         <Icon>
@@ -74,14 +103,14 @@ const PageContainer = styled.div`
 
 const ProductOverview = styled.div`
   width: 100%;
-  height: 360px;
+  height: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  background-image: url("https://i.imgur.com/6QbZ0T0.jpg");
+  background-image: url(${(props) => props.image});
   background-position: center;
   background-size: cover;
   z-index: -1;
@@ -98,7 +127,7 @@ const Locality = styled.h1`
 
 const DescriptionContainer = styled.div`
   width: 340px;
-  height: 200px;
+  height: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,12 +173,12 @@ const Tag = styled.div`
 `;
 
 const SeasonsTitle = styled.h1`
-  margin-top: 320px;
+  margin-top: 260px;
   font-family: "Comfortaa", cursive;
   font-weight: 400;
   font-size: 28px;
   color: #ffffff;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const Seasons = styled.div`
@@ -160,7 +189,7 @@ const Seasons = styled.div`
 
 const Season = styled.div`
   width: 150px;
-  height: 50px;
+  height: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -172,11 +201,41 @@ const Season = styled.div`
   font-size: 20px;
   color: #000000;
   text-align: center;
-  margin: 20px;
+  margin: 10px 20px;
   p {
     font-size: 10px;
     margin-top: 5px;
   }
+`;
+
+const AdditionalContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  font-family: "Comfortaa", cursive;
+  font-weight: 400;
+  color: #ffffff;
+  h1 {
+    width: 100%;
+    font-size: 28px;
+  }
+`;
+
+const Additional = styled.div`
+  width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  p {
+    font-size: 20px;
+  }
+`;
+
+const CheckIcon = styled.div`
+  font-size: 24px;
 `;
 
 const AmountTitle = styled.p`
