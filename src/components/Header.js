@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -9,11 +9,13 @@ import Logo from "./Logo";
 import URL from "../constants/url";
 import { IoIosArrowDown } from "react-icons/io";
 import { useCartData } from "../providers/cartData";
+import { BiLogOut } from "react-icons/bi";
 
 function Header() {
-  const { userAuth } = useAuth();
+  const { userAuth, setUserAuth } = useAuth();
   const { userData, setUserData } = useUserData();
   const { cartData, setCartData } = useCartData();
+  const [menuOpen, setMenuOpen] = useState();
 
   useEffect(() => {
     if (userAuth !== undefined) {
@@ -45,10 +47,26 @@ function Header() {
     }
   }, [userAuth]);
 
+  function logOut() {
+    axios
+      .delete(`${URL}/sessions`, {
+        headers: {
+          Authorization: `Bearer ${userAuth.token}`,
+        },
+      })
+      .then(() => {
+        localStorage.removeItem("userAuthMaisNordeste");
+        setUserAuth(undefined);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  }
+
   if (userAuth === undefined) {
     return (
       <HeaderContainer>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
         <Link to="/login">
           <SignInButton>Entrar</SignInButton>
         </Link>
@@ -63,11 +81,21 @@ function Header() {
 
   return (
     <HeaderContainer>
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
       {userData ? (
         <UserInfo>
           <h3>Olá, {userData.name}</h3>
-          <IoIosArrowDown />
+          <IoIosArrowDown onClick={() => setMenuOpen(!menuOpen)} />
+          {menuOpen && (
+            <DropdownMenuActive>
+              <Option onClick={logOut}>
+                <BiLogOut />
+                <h3>Sair</h3>
+              </Option>
+            </DropdownMenuActive>
+          )}
         </UserInfo>
       ) : (
         <Welcome>
@@ -141,6 +169,9 @@ const UserInfo = styled.div`
   font-weight: 700;
   font-size: 18px;
   color: #ffffff;
+  svg {
+    cursor: pointer;
+  }
 `;
 
 const CartIcon = styled.div`
@@ -167,6 +198,45 @@ const ItemsCart = styled.div`
     font-weight: 700;
     font-size: 15px;
     color: #ffffff;
+  }
+`;
+
+const DropdownMenuActive = styled.div`
+  width: 125px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    height: 20px;
+    width: 20px;
+    background: #ffffff;
+    z-index: -1;
+    transform: rotate(45deg);
+  }
+`;
+
+const Option = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Comfortaa", cursive;
+  font-weight: 700;
+  font-size: 18px;
+  color: #000000;
+  h3 {
+    font-size: 14px;
+  }
+  &:hover {
+    color: #d52b2b;
+    cursor: pointer;
   }
 `;
 
