@@ -1,10 +1,22 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useCartData } from "../../providers/cartData";
 
 export default function TotalFooter() {
+  const { cartData } = useCartData();
+  const [total, setTotal] = useState();
+  useEffect(() => {
+    let value = 0;
+    for (let i = 0; i < cartData.length; i++) {
+      value += cartData[i].subtotal;
+      setTotal((value / 100).toFixed(2).replace(".", ","));
+    }
+  }, [cartData]);
+
   return (
     <TotalFooterStyle>
       <div>
-        <h3>Total: R$ 3.500,00</h3>
+        <h3>Total: R$ {total}</h3>
         <button>Continuar</button>
       </div>
     </TotalFooterStyle>

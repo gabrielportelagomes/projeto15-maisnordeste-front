@@ -13,7 +13,7 @@ import { useAuth } from "../../providers/auth";
 import PageContainer from "../AdminPage/PageContainer";
 import LoadingPage from "../../assets/styles/LoadingPage";
 import { useCartData } from "../../providers/cartData";
-import LoggedOutScreen from "./LoggedOutScreen"
+import LoggedOutScreen from "./LoggedOutScreen";
 
 function ShoppingCartPage() {
   const { userData } = useUserData();
@@ -21,14 +21,14 @@ function ShoppingCartPage() {
   const { cartData } = useCartData();
 
   useEffect(() => {
-    console.log(userAuth); // pro put e pro delete
+    //console.log(cartData); // pro put e pro delete
   }, [userData, userAuth, cartData]);
 
   if (!userAuth) {
     return (
       <PageContainer>
         <Header />
-        <LoggedOutScreen/>
+        <LoggedOutScreen />
       </PageContainer>
     );
   }
@@ -42,18 +42,21 @@ function ShoppingCartPage() {
     );
   }
 
+  if (cartData.length === 0) {
+    <PageContainer>
+      <Header />
+      <EmptyCardContainer />
+    </PageContainer>;
+  }
+
   return (
     <CartPageContainer>
       <Header />
       <h1>Carrinho ({cartData.length})</h1>
       <PurchasesContainer>
-        {cartData.length === 0 ? (
-          <EmptyCardContainer />
-        ) : (
-          cartData.map((purchase) => (
-            <CardPurchase key={purchase.title} purchase={purchase} />
-          ))
-        )}
+        {cartData.map((purchase) => (
+          <CardPurchase key={purchase.title} purchase={purchase} />
+        ))}
       </PurchasesContainer>
       <AddProductsLoggedIn />
       <TotalFooter />

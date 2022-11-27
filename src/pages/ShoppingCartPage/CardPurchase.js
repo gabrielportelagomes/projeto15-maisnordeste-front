@@ -9,22 +9,12 @@ import { IoIosAddCircleOutline as PlusIcon } from "react-icons/io";
 import { BsFillTrashFill as TrashIcon } from "react-icons/bs";
 
 export default function CardPurchase({ purchase }) {
+  console.log(purchase);
   const { user, subtotal, title, image, season, amount, breakfast, transport } =
     purchase;
   const pricePerUnity = subtotal / amount;
   const [updatedAmount, setUpdatedAmount] = useState(amount);
   const [updatedSubTotal, setUpdatedSubTotal] = useState(subtotal);
-
-  useEffect(() => {}, [updatedAmount, updatedSubTotal]);
-  function setAmount(value) {
-    if (updatedAmount === 1 && value === -1) {
-      return;
-    }
-    setUpdatedAmount(updatedAmount + value);
-  }
-  useEffect(() => {
-    setUpdatedSubTotal(updatedAmount * pricePerUnity);
-  }, [updatedAmount]);
 
   return (
     <CardPurchaseStyle>
@@ -61,9 +51,9 @@ export default function CardPurchase({ purchase }) {
       <Bottom>
         <AmountContainer>
           <div>
-            <MinusIcon onClick={() => setAmount(-1)} />
+            <MinusIcon onClick="" />
             <h3>{updatedAmount}</h3>
-            <PlusIcon onClick={() => setAmount(+1)} />
+            <PlusIcon onClick="" />
           </div>
           <p>Alterar quantidade</p>
         </AmountContainer>
