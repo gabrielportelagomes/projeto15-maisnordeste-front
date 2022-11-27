@@ -10,6 +10,7 @@ import TagsContainer from "./TagsContainer";
 import ProductsContainer from "./ProductsContainer";
 import ProductCard from "./ProductCard";
 import TagCard from "./TagCard";
+import LoadingPage from "../../assets/styles/LoadingPage";
 
 export default function StatePage() {
   const { estado } = useParams();
@@ -58,6 +59,14 @@ export default function StatePage() {
       navigate("*");
     });
   }, [selectedTag]);
+
+  if (productsFromState.length === 0) {
+    return (
+      <StatePageContainer>
+        <LoadingPage />
+      </StatePageContainer>
+    );
+  }
 
   return (
     <StatePageContainer>
