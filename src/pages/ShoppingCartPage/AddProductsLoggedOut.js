@@ -1,11 +1,15 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default function AddProductsLoggedOut() {
   return (
     <AddProductsLoggedOutStyle>
-      <button>Escolha mais produtos</button>
-      <h2>Para finalizar sua compra, faça o login!</h2>
-      <p>Primeira vez? Cadastre-se!</p>
+      <Link to="/">
+        <button>Escolha mais produtos</button>
+      </Link>
+      <Link to="/login">
+        <h2>Para finalizar sua compra, faça o login!</h2>
+      </Link>
     </AddProductsLoggedOutStyle>
   );
 }
@@ -22,6 +26,7 @@ const AddProductsLoggedOutStyle = styled.section`
     background-color: #3003b2;
     color: white;
     margin: 20px auto;
+    cursor: pointer;
   }
 
   h2 {

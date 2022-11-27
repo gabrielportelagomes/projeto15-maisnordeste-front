@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default function AddProductsLoggedIn() {
   return (
     <AddProductsLoggedInStyle>
-      <button>Escolha mais produtos</button>
+      <Link to="/">
+        <button>Escolha mais produtos</button>
+      </Link>
     </AddProductsLoggedInStyle>
   );
 }
@@ -20,5 +23,6 @@ const AddProductsLoggedInStyle = styled.section`
     background-color: #3003b2;
     color: white;
     margin: 20px auto;
+    cursor: pointer;
   }
 `;

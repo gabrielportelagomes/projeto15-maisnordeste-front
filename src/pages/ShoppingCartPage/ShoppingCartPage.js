@@ -6,8 +6,11 @@ import AddProductsLoggedOut from "./AddProductsLoggedOut";
 import TotalFooter from "./TotalFooter";
 import EmptyCardContainer from "./EmptyCartContainer";
 import AddProductsLoggedIn from "./AddProductsLoggedIn";
+import { useUserData } from "../../providers/userData";
 
 function ShoppingCartPage() {
+  const { userData } = useUserData();
+
   return (
     <CartPageContainer>
       <Header />
@@ -17,8 +20,7 @@ function ShoppingCartPage() {
         <CardPurchase />
         {/* <EmptyCardContainer/> */}
       </PurchasesContainer>
-      <AddProductsLoggedOut />
-      {/* <AddProductsLoggedIn /> */}
+      {userData ? <AddProductsLoggedIn /> : <AddProductsLoggedOut />}
       <TotalFooter />
     </CartPageContainer>
   );
