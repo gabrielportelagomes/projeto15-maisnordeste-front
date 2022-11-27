@@ -23,7 +23,7 @@ function ProductPage() {
   ];
   const lowSeasons = [
     {
-      season: "Baixa temporada 1",
+      season: "Baixa Temporada 1",
       months: "Mai-Jun",
       seasonTag: "baixaTemporada1",
     },
