@@ -35,7 +35,11 @@ function ActivitiesPage() {
       <ActivitiesContainer>
         {activities.map((activity, id) => (
           <Link key={id} to={`/atividades/${activity.tag}`}>
-            <Activity key={id} activityImage={activity.image} id={activity.sttagate}>
+            <Activity
+              key={id}
+              activityImage={activity.image}
+              id={activity.sttagate}
+            >
               <p>{activity.name}</p>
             </Activity>
           </Link>
@@ -75,8 +79,10 @@ const ActivitiesContainer = styled.div`
   margin-top: 30px;
   margin-bottom: 70px;
   overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome */
   }
 `;
 
