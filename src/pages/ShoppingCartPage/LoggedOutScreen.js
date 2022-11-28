@@ -36,12 +36,12 @@ const LoggedOutScreenStyle = styled.section`
     margin-top: 20px;
   }
   button {
-    width: 250px;
-    font-size: 16px;
-    height: 30px;
-    background-color: #3003b2;
-    color: white;
+    height: 40px;
+    width: 283px;
     margin-top: 40px;
+    background-color: #3003b2;
+    font-size: 16px;
+    color: white;
     cursor: pointer;
   }
   h2 {
