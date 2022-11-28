@@ -9,6 +9,12 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/auth";
 import axios from "axios";
+import barCode from "../../assets/images/barCode.png";
+import pix from "../../assets/images/pix.png";
+import creditCard from "../../assets/images/creditCard.png";
+import barCodeSelected from "../../assets/images/barCode-selected.png";
+import pixSelected from "../../assets/images/pix-selected.png";
+import creditCardSelected from "../../assets/images/creditCard-selected.png";
 
 function CheckoutPage() {
   const navigate = useNavigate();
@@ -16,6 +22,7 @@ function CheckoutPage() {
   const { cartData } = useCartData();
   const [total, setTotal] = useState();
   const [userId, setUserId] = useState();
+  const [payment, setPayment] = useState();
 
   function formatValue(value) {
     let newValue = `${value}`;
@@ -38,8 +45,11 @@ function CheckoutPage() {
     const body = {
       userId: userId,
       total: total,
+      payment: payment,
       orders: orders,
     };
+
+    console.log(body);
 
     axios
       .post(`http://localhost:5000/orders`, body, {
@@ -84,47 +94,92 @@ function CheckoutPage() {
   return (
     <PageContainer>
       <Header />
-      <h1>Resumo do pedido:</h1>
-      <SummaryContainer>
-        <Summary>
-          {cartData.map((product) => (
-            <Product key={product._id}>
-              <Top>{product.title}</Top>
-              <Middle>
-                <img src={product.image} alt={product.title} />
-                <PurchaseSummary>
-                  <header>Resumo da compra</header>
-                  <li>
-                    <CalendarIcon color="darkblue" />
-                    Quando? {product.season}
-                  </li>
-                  <li>
-                    {product.breakfast ? (
-                      <CheckIcon color="green" />
-                    ) : (
-                      <CloseIcon color="red" />
-                    )}
-                    Café da manhã
-                  </li>
-                  <li>
-                    {product.transport ? (
-                      <CheckIcon color="green" />
-                    ) : (
-                      <CloseIcon color="red" />
-                    )}
-                    Translado
-                  </li>
-                  <Amount>Quantidade: {product.amount}</Amount>
-                  <h3>Valor: R$ {formatValue(product.subtotal)}</h3>
-                </PurchaseSummary>
-              </Middle>
-            </Product>
-          ))}
-        </Summary>
-      </SummaryContainer>
+      <OrderContainer>
+        <h1>Resumo do pedido:</h1>
+        <SummaryContainer>
+          <Summary>
+            {cartData.map((product) => (
+              <Product key={product._id}>
+                <Top>{product.title}</Top>
+                <Middle>
+                  <img src={product.image} alt={product.title} />
+                  <PurchaseSummary>
+                    <header>Resumo da compra</header>
+                    <li>
+                      <CalendarIcon color="darkblue" />
+                      Quando? {product.season}
+                    </li>
+                    <li>
+                      {product.breakfast ? (
+                        <CheckIcon color="green" />
+                      ) : (
+                        <CloseIcon color="red" />
+                      )}
+                      Café da manhã
+                    </li>
+                    <li>
+                      {product.transport ? (
+                        <CheckIcon color="green" />
+                      ) : (
+                        <CloseIcon color="red" />
+                      )}
+                      Translado
+                    </li>
+                    <Amount>Quantidade: {product.amount}</Amount>
+                    <h3>Valor: R$ {formatValue(product.subtotal)}</h3>
+                  </PurchaseSummary>
+                </Middle>
+              </Product>
+            ))}
+          </Summary>
+        </SummaryContainer>
+        <h2>Selecione uma forma de pagamento:</h2>
+        <PaymentContainer>
+          <Payment onClick={() => setPayment("boleto")}>
+            {payment === "boleto" ? (
+              <img src={barCodeSelected} alt="barCode" />
+            ) : (
+              <img src={barCode} alt="barCode" />
+            )}
+
+            <p>Boleto bancário</p>
+          </Payment>
+          <Payment onClick={() => setPayment("credito")}>
+            {payment === "credito" ? (
+              <img src={creditCardSelected} alt="credito" />
+            ) : (
+              <img src={creditCard} alt="credito" />
+            )}
+
+            <p>Crédito 12x</p>
+          </Payment>
+          <Payment onClick={() => setPayment("pix")}>
+            {payment === "pix" ? (
+              <img src={pixSelected} alt="creditCard" />
+            ) : (
+              <img src={pix} alt="creditCard" />
+            )}
+
+            <p>pix</p>
+          </Payment>
+        </PaymentContainer>
+      </OrderContainer>
       <Footer>
         <p>Total: R$ {formatValue(total)}</p>
-        <AddButton onClick={sendOrder}>Finalizar pedido</AddButton>
+        {!payment ? (
+          <AddButton
+            active={true}
+            onClick={() =>
+              alert("Selecione uma forma de pagamento ao final da página!")
+            }
+          >
+            Finalizar pedido
+          </AddButton>
+        ) : (
+          <AddButton active={false} onClick={sendOrder}>
+            Finalizar pedido
+          </AddButton>
+        )}
       </Footer>
     </PageContainer>
   );
@@ -138,12 +193,34 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 110px;
+`;
+
+const OrderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 110px;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome */
+  }
   h1 {
     margin-top: 20px;
     width: 340px;
     font-family: "Comfortaa", cursive;
     font-weight: 400;
     font-size: 24px;
+    color: #ffffff;
+  }
+  h2 {
+    margin-top: 20px;
+    width: 340px;
+    font-family: "Comfortaa", cursive;
+    font-weight: 400;
+    font-size: 16px;
     color: #ffffff;
   }
 `;
@@ -184,13 +261,6 @@ const SummaryContainer = styled.section`
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
-  margin-bottom: 110px;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  &::-webkit-scrollbar {
-    display: none; /* Chrome */
-  }
 `;
 
 const Summary = styled.div`
@@ -263,6 +333,32 @@ const Amount = styled.h4`
   padding-right: 5px;
 `;
 
+const PaymentContainer = styled.div`
+  width: 340px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Payment = styled.div`
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  cursor: pointer;
+  p {
+    font-family: "Comfortaa", cursive;
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 5px;
+  }
+  img {
+    width: 50px;
+  }
+`;
+
 const Footer = styled.div`
   width: 100%;
   height: 80px;
@@ -287,11 +383,11 @@ const AddButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #4ecb71;
+  background-color: ${(props) => (props.active ? "#dcdcdc" : "#4ecb71")};
   margin-right: 20px;
   font-family: "Comfortaa", cursive;
   font-weight: 700;
   font-size: 16px;
   color: #ffffff;
-  cursor: pointer;
+  cursor: ${(props) => (props.active ? "cursor" : "pointer")};
 `;
