@@ -129,17 +129,20 @@ function ProductPage() {
     <PageContainer>
       <Header />
       <ProductOverview image={product.image}>
-        <Locality>{product.title}</Locality>
-        <DescriptionContainer>
-          <Description>{product.description}</Description>
-          <Tags>
-            {product.tags.map((tag, id) => (
-              <Tag key={id}>
-                <p>{tag}</p>
-              </Tag>
-            ))}
-          </Tags>
-        </DescriptionContainer>
+        <Opacity>
+          <Locality>{product.title}</Locality>
+
+          <ProductCardDescriptionStyle>
+            <ul>
+              {product.tags.map((tag) => (
+                <TagCardStyled key={tag}>{tag}</TagCardStyled>
+              ))}
+            </ul>
+            <nav>
+              <h3>{product.description}</h3>
+            </nav>
+          </ProductCardDescriptionStyle>
+        </Opacity>
       </ProductOverview>
       <OptionsContainer>
         <SeasonsTitle>Selecione uma temporada</SeasonsTitle>
@@ -212,20 +215,22 @@ function ProductPage() {
           </Icon>
         </AmountContainer>
       </OptionsContainer>
-      <Footer>
-        <p>Total: R$ {showTotal}</p>
-        {!userData ? (
-          <Link to={"/login"}>
-            <LoginButton>Faça o login</LoginButton>
-          </Link>
-        ) : disableButton ? (
-          <AddButton disabled={disableButton}>Adicionar</AddButton>
-        ) : (
-          <AddButton disabled={disableButton} onClick={addToCart}>
-            Adicionar
-          </AddButton>
-        )}
-      </Footer>
+      <TotalFooterStyle>
+        <div>
+          <h3>Total: R$ {showTotal}</h3>
+          {!userData ? (
+            <Link to={"/login"}>
+              <LoginButton>Faça o login</LoginButton>
+            </Link>
+          ) : disableButton ? (
+            <AddButton disabled={disableButton}>Adicionar</AddButton>
+          ) : (
+            <AddButton disabled={disableButton} onClick={addToCart}>
+              Adicionar
+            </AddButton>
+          )}
+        </div>
+      </TotalFooterStyle>
     </PageContainer>
   );
 }
@@ -243,9 +248,7 @@ const PageContainer = styled.div`
 const ProductOverview = styled.div`
   width: 100%;
   height: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
   position: absolute;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -253,6 +256,18 @@ const ProductOverview = styled.div`
   background-position: center;
   background-size: cover;
   z-index: -1;
+`;
+
+const Opacity = styled.div`
+  width: 100%;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const Locality = styled.h1`
@@ -264,60 +279,15 @@ const Locality = styled.h1`
   color: #ffffff;
 `;
 
-const DescriptionContainer = styled.div`
-  width: 340px;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 10px;
-  margin-top: 5px;
-  background-color: rgba(255, 255, 255, 0.4);
-`;
-
-const Description = styled.h3`
-  width: 310px;
-  margin-top: 10px;
-  font-family: "Comfortaa", cursive;
-  font-weight: 400;
-  font-size: 20px;
-  color: #000000;
-  text-align: justify;
-`;
-
-const Tags = styled.div`
-  width: 310px;
-  height: 25px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 15px;
-`;
-
-const Tag = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.6);
-  margin-left: 10px;
-  p {
-    font-family: "Comfortaa", cursive;
-    font-weight: 400;
-    font-size: 15px;
-    color: #000000;
-    margin: 5px;
-  }
-`;
-
 const OptionsContainer = styled.div`
   width: 340px;
-  overflow-y: auto;
   margin-top: 260px;
   margin-bottom: 90px;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome */
   }
 `;
 
@@ -433,24 +403,6 @@ const Amount = styled.p`
   margin: 0 20px;
 `;
 
-const Footer = styled.div`
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
-  position: absolute;
-  bottom: 0;
-  p {
-    font-family: "Comfortaa", cursive;
-    font-weight: 700;
-    font-size: 20px;
-    color: #000000;
-    margin-left: 20px;
-  }
-`;
-
 const LoginButton = styled.button`
   width: 110px;
   height: 35px;
@@ -466,17 +418,79 @@ const LoginButton = styled.button`
   cursor: pointer;
 `;
 
-const AddButton = styled.button`
-  width: 110px;
-  height: 35px;
+const TotalFooterStyle = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  bottom: 0;
+  position: fixed;
+  div {
+    align-items: center;
+    padding: 10px;
+    display: flex;
+    width: 390px;
+    justify-content: space-between;
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    button {
+    }
+  }
+`;
+
+const AddButton = styled.button`
+  width: 100px;
+  height: 35px;
   background-color: ${(props) => (props.disabled ? "#d9d9d9" : "#4ECB71")};
-  margin-right: 20px;
-  font-family: "Comfortaa", cursive;
-  font-weight: 700;
-  font-size: 16px;
-  color: #ffffff;
+  color: white;
+  font-size: 14px;
   cursor: pointer;
+`;
+
+const ProductCardDescriptionStyle = styled.div`
+  width: 340px;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0);
+  flex-direction: row;
+  margin-top: 10px;
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  nav {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    h3 {
+      color: white;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #4ecb71;
+      color: white;
+      cursor: pointer;
+    }
+  }
+`;
+
+const TagCardStyled = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  font-size: 12px;
+  border-radius: 10px;
+  height: 20px;
+  margin-bottom: 10px;
+  width: 100px;
+  color: black;
 `;
