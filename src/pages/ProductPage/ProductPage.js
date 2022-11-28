@@ -51,7 +51,10 @@ function ProductPage() {
       .then((response) => {
         setProduct(response.data);
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => {
+        console.log(error.response.data)
+      navigate("*")
+      });
   }, []);
 
   useEffect(() => {
