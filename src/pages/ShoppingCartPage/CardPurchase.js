@@ -7,28 +7,95 @@ import { BsCalendarCheck as CalendarIcon } from "react-icons/bs";
 import { IoIosRemoveCircleOutline as MinusIcon } from "react-icons/io";
 import { IoIosAddCircleOutline as PlusIcon } from "react-icons/io";
 import { BsFillTrashFill as TrashIcon } from "react-icons/bs";
+import { useCartData } from "../../providers/cartData";
+import axios from "axios";
+import URL from "../../constants/url";
+import { useAuth } from "../../providers/auth";
 
 export default function CardPurchase({ purchase }) {
-  const { user, subtotal, title, image, season, amount, breakfast, transport } =
-    purchase;
+  const { userAuth } = useAuth();
+  const {
+    _id,
+    user,
+    subtotal,
+    seasonTag,
+    title,
+    image,
+    state,
+    season,
+    amount,
+    breakfast,
+    transport,
+    idProduct,
+  } = purchase;
+  const id = _id;
   const pricePerUnity = subtotal / amount;
-  const [updatedAmount, setUpdatedAmount] = useState(amount);
-  const [updatedSubTotal, setUpdatedSubTotal] = useState(subtotal);
+  const [updatedMessage, setUpdatedMessage] = useState("Alterar quantidade");
+  const [product, setProduct] = useState();
 
-  useEffect(() => {}, [updatedAmount, updatedSubTotal]);
-  function setAmount(value) {
-    if (updatedAmount === 1 && value === -1) {
-      return;
-    }
-    setUpdatedAmount(updatedAmount + value);
-  }
   useEffect(() => {
-    setUpdatedSubTotal(updatedAmount * pricePerUnity);
-  }, [updatedAmount]);
+    axios
+      .get(`${URL}/product/${idProduct}`)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => console.log(error.response.data));
+  }, [updatedMessage]);
+
+  function increaseAmount() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth.token}`,
+      },
+    };
+    const stock = product.stock[seasonTag];
+    if (amount < stock) {
+      const newAmount = amount + 1;
+      const newSubtotal = newAmount * pricePerUnity;
+      const body = { amount: newAmount, subtotal: newSubtotal };
+      const promise = axios.put(`${URL}/cart/${id}`, body, config);
+      promise.then(() => {
+        setUpdatedMessage("Alterar quantidade");
+        window.location.reload();
+      });
+      promise.catch((error) => console.log(error.response.data));
+    } else {
+      setUpdatedMessage("Limite máx atingido");
+    }
+  }
+
+  function decreaseAmount() {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth.token}`,
+      },
+    };
+    const newAmount = amount - 1;
+    const newSubtotal = newAmount * pricePerUnity;
+    const body = { amount: newAmount, subtotal: newSubtotal };
+    if (amount > 1) {
+      const promise = axios.put(`${URL}/cart/${id}`, body, config);
+      promise.then(() => {
+        setUpdatedMessage("Alterar quantidade");
+        window.location.reload();
+      });
+      promise.catch((error) => console.log(error.response.data));
+    }
+  }
+
+  function formatValue(value) {
+    let newValue = `${value}`;
+    newValue = newValue.replace(/\D/g, "");
+    newValue = newValue.replace(/(\d)(\d{2})$/, "$1,$2");
+    newValue = newValue.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    return newValue;
+  }
 
   return (
     <CardPurchaseStyle>
-      <Top>{title}</Top>
+      <Top>
+        {title} - {state}
+      </Top>
       <Middle>
         <img src={image} alt={title} />
         <PurchaseSummary>
@@ -53,19 +120,17 @@ export default function CardPurchase({ purchase }) {
             )}
             Translado
           </li>
-          <h3>
-            Valor: R$ {(updatedSubTotal / 100).toFixed(2).replace(".", ",")}
-          </h3>
+          <h3>Valor: R$ {formatValue(subtotal)}</h3>
         </PurchaseSummary>
       </Middle>
       <Bottom>
         <AmountContainer>
           <div>
-            <MinusIcon onClick={() => setAmount(-1)} />
-            <h3>{updatedAmount}</h3>
-            <PlusIcon onClick={() => setAmount(+1)} />
+            <MinusIcon onClick={decreaseAmount} />
+            <h3>{amount}</h3>
+            <PlusIcon onClick={increaseAmount} />
           </div>
-          <p>Alterar quantidade</p>
+          <p>{updatedMessage}</p>
         </AmountContainer>
         <RemoveContainer>
           <div>
