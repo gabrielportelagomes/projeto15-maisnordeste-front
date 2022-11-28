@@ -6,11 +6,16 @@ import { BsFillXCircleFill as CloseIcon } from "react-icons/bs";
 import { BsCalendarCheck as CalendarIcon } from "react-icons/bs";
 import LoadingPage from "../../assets/styles/LoadingPage";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../providers/auth";
+import axios from "axios";
 
 function CheckoutPage() {
+  const navigate = useNavigate();
+  const { userAuth } = useAuth();
   const { cartData } = useCartData();
   const [total, setTotal] = useState();
+  const [userId, setUserId] = useState();
 
   function formatValue(value) {
     let newValue = `${value}`;
@@ -18,6 +23,32 @@ function CheckoutPage() {
     newValue = newValue.replace(/(\d)(\d{2})$/, "$1,$2");
     newValue = newValue.replace(/(?=(\d{3})+(\D))\B/g, ".");
     return newValue;
+  }
+
+  function sendOrder() {
+    const orders = cartData;
+    orders.forEach((order) => {
+      order.productId = order._id;
+
+      delete order.idProduct;
+      delete order._id;
+      delete order.user;
+    });
+
+    const body = {
+      userId: userId,
+      total: total,
+      orders: orders,
+    };
+
+    axios
+      .post(`http://localhost:5000/orders`, body, {
+        headers: {
+          Authorization: `Bearer ${userAuth.token}`,
+        },
+      })
+      .then(() => navigate("/"))
+      .catch((error) => console.log(error.response.data));
   }
 
   useEffect(() => {
@@ -28,6 +59,9 @@ function CheckoutPage() {
       });
       setTotal(newTotal);
     }
+    if (cartData && !userId) {
+      setUserId(cartData[0].user);
+    }
   }, [cartData]);
 
   if (!cartData) {
@@ -36,9 +70,7 @@ function CheckoutPage() {
         <Header />
         <AccessInfo>
           <LoadingPage />
-          <h1>
-            Tenha certeza de estar logado e de ter produtos no carrinho!
-          </h1>
+          <h1>Tenha certeza de estar logado e de ter produtos no carrinho!</h1>
           <BackContainer>
             <Link to="/">
               <p>Voltar para a página inicial</p>
@@ -92,7 +124,7 @@ function CheckoutPage() {
       </SummaryContainer>
       <Footer>
         <p>Total: R$ {formatValue(total)}</p>
-        <AddButton>Finalizar pedido</AddButton>
+        <AddButton onClick={sendOrder}>Finalizar pedido</AddButton>
       </Footer>
     </PageContainer>
   );
