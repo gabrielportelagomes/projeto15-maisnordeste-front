@@ -15,10 +15,9 @@ const StatePageContainer = styled.div`
   }
   h1 {
     margin-top: 20px;
-    margin-left: 10px;
     display: flex;
     justify-content: flex-start;
-    width: 100%;
+    width: 330px;
   }
 `;
 export default StatePageContainer;
