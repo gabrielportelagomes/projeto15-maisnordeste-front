@@ -129,17 +129,20 @@ function ProductPage() {
     <PageContainer>
       <Header />
       <ProductOverview image={product.image}>
-        <Locality>{product.title}</Locality>
-        <DescriptionContainer>
-          <Description>{product.description}</Description>
-          <Tags>
-            {product.tags.map((tag, id) => (
-              <Tag key={id}>
-                <p>{tag}</p>
-              </Tag>
-            ))}
-          </Tags>
-        </DescriptionContainer>
+        <Opacity>
+          <Locality>{product.title}</Locality>
+
+          <ProductCardDescriptionStyle>
+            <ul>
+              {product.tags.map((tag) => (
+                <TagCardStyled key={tag}>{tag}</TagCardStyled>
+              ))}
+            </ul>
+            <nav>
+              <h3>{product.description}</h3>
+            </nav>
+          </ProductCardDescriptionStyle>
+        </Opacity>
       </ProductOverview>
       <OptionsContainer>
         <SeasonsTitle>Selecione uma temporada</SeasonsTitle>
@@ -245,9 +248,7 @@ const PageContainer = styled.div`
 const ProductOverview = styled.div`
   width: 100%;
   height: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
   position: absolute;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -257,6 +258,18 @@ const ProductOverview = styled.div`
   z-index: -1;
 `;
 
+const Opacity = styled.div`
+  width: 100%;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
 const Locality = styled.h1`
   width: 340px;
   margin-top: 110px;
@@ -264,53 +277,6 @@ const Locality = styled.h1`
   font-weight: 400;
   font-size: 28px;
   color: #ffffff;
-`;
-
-const DescriptionContainer = styled.div`
-  width: 340px;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 10px;
-  margin-top: 5px;
-  background-color: rgba(255, 255, 255, 0.4);
-`;
-
-const Description = styled.h3`
-  width: 310px;
-  margin-top: 10px;
-  font-family: "Comfortaa", cursive;
-  font-weight: 400;
-  font-size: 20px;
-  color: #000000;
-  text-align: justify;
-`;
-
-const Tags = styled.div`
-  width: 310px;
-  height: 25px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 15px;
-`;
-
-const Tag = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.6);
-  margin-left: 10px;
-  p {
-    font-family: "Comfortaa", cursive;
-    font-weight: 400;
-    font-size: 15px;
-    color: #000000;
-    margin: 5px;
-  }
 `;
 
 const OptionsContainer = styled.div`
@@ -482,4 +448,49 @@ const AddButton = styled.button`
   color: white;
   font-size: 14px;
   cursor: pointer;
+`;
+
+const ProductCardDescriptionStyle = styled.div`
+  width: 340px;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0);
+  flex-direction: row;
+  margin-top: 10px;
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  nav {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    h3 {
+      color: white;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #4ecb71;
+      color: white;
+      cursor: pointer;
+    }
+  }
+`;
+
+const TagCardStyled = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  font-size: 12px;
+  border-radius: 10px;
+  height: 20px;
+  margin-bottom: 10px;
+  width: 100px;
+  color: black;
 `;
