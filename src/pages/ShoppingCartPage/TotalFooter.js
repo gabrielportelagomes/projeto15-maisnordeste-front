@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useCartData } from "../../providers/cartData";
+import { Link } from "react-router-dom";
 
 export default function TotalFooter() {
   const { cartData } = useCartData();
@@ -21,12 +22,13 @@ export default function TotalFooter() {
     return newValue;
   }
 
-
   return (
     <TotalFooterStyle>
       <div>
         <h3>Total: R$ {formatValue(total)}</h3>
-        <button>Continuar</button>
+        <Link to="/checkout">
+          <button>Continuar</button>
+        </Link>
       </div>
     </TotalFooterStyle>
   );
@@ -56,6 +58,7 @@ const TotalFooterStyle = styled.div`
       background-color: #4ecb71;
       color: white;
       font-size: 14px;
+      cursor: pointer;
     }
   }
 `;
