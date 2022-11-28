@@ -10,6 +10,7 @@ import URL from "../constants/url";
 import { IoIosArrowDown } from "react-icons/io";
 import { useCartData } from "../providers/cartData";
 import { BiLogOut } from "react-icons/bi";
+import { RiAdminLine } from "react-icons/ri";
 
 function Header() {
   const { userAuth, setUserAuth } = useAuth();
@@ -94,6 +95,14 @@ function Header() {
                 <BiLogOut />
                 <h3>Sair</h3>
               </Option>
+              {userData.type === "admin" && (
+                <Link to="/admin">
+                  <Option>
+                    <RiAdminLine />
+                    <h3>Admin</h3>
+                  </Option>
+                </Link>
+              )}
             </DropdownMenuActive>
           )}
         </UserInfo>
@@ -167,7 +176,7 @@ const UserInfo = styled.div`
   margin: 0 25px;
   font-family: "Comfortaa", cursive;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
   color: #ffffff;
   svg {
     cursor: pointer;
@@ -231,6 +240,7 @@ const Option = styled.div`
   font-weight: 700;
   font-size: 18px;
   color: #000000;
+  margin-top: 10px;
   h3 {
     font-size: 14px;
   }
