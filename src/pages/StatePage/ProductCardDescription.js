@@ -42,6 +42,7 @@ const ProductCardDescriptionStyle = styled.div`
     font-size: 15px;
     h3 {
       color: white;
+      font-size: 14px;
     }
 
     button {
