@@ -94,7 +94,9 @@ function SignUpPage({ emailForm }) {
 
   return (
     <PageContainer>
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
       {disabledButton ? (
         <BackButton>
           <MdArrowBackIos />

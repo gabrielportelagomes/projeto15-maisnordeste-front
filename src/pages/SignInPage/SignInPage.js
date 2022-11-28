@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { MdArrowBackIos, MdLogin } from "react-icons/md";
 import Logo from "../../components/Logo";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import URL from "../../constants/url";
@@ -79,10 +79,14 @@ function SignInPage({ emailForm, setEmailForm }) {
 
   return (
     <PageContainer>
-      <Logo />
-      <BackButton>
-        <MdArrowBackIos />
-      </BackButton>
+      <Link to="/">
+        <Logo />
+      </Link>
+      <Link to="/">
+        <BackButton>
+          <MdArrowBackIos />
+        </BackButton>
+      </Link>
       <Form onSubmit={signIn}>
         <h1>Fazer login</h1>
         <Label>E-mail:</Label>
