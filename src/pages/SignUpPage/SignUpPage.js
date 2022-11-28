@@ -81,7 +81,7 @@ function SignUpPage({ emailForm }) {
 
       axios
         .post(`${URL}/sign-up`, body)
-        .then(() => navigate("/"))
+        .then(() => navigate("/login"))
         .catch((error) => {
           alert(error.response.data.message);
           setDisabledButton(false);
@@ -123,6 +123,7 @@ function SignUpPage({ emailForm }) {
         <Label htmlFor="cpf">CPF:</Label>
         <Input
           name="cpf"
+          id="cpf"
           value={signUpForm.cpf}
           onChange={(e) => handleForm(cpfMask(e))}
           type="text"
@@ -132,9 +133,10 @@ function SignUpPage({ emailForm }) {
           disabled={disabledButton}
           required
         ></Input>
-        <Label>Nome:</Label>
+        <Label htmlFor="name">Nome:</Label>
         <Input
           name="name"
+          id="name"
           value={signUpForm.name}
           onChange={handleForm}
           type="text"
@@ -142,9 +144,10 @@ function SignUpPage({ emailForm }) {
           disabled={disabledButton}
           required
         ></Input>
-        <Label>Sobrenome:</Label>
+        <Label htmlFor="surname">Sobrenome:</Label>
         <Input
           name="surname"
+          id="surname"
           value={signUpForm.surname}
           onChange={handleForm}
           type="text"
@@ -152,9 +155,10 @@ function SignUpPage({ emailForm }) {
           disabled={disabledButton}
           required
         ></Input>
-        <Label>Data de nascimento:</Label>
+        <Label htmlFor="birthDate">Data de nascimento:</Label>
         <Input
           name="birthDate"
+          id="birthDate"
           value={signUpForm.birthDate}
           onChange={(e) => handleForm(birthDateMask(e))}
           type="text"
@@ -164,9 +168,10 @@ function SignUpPage({ emailForm }) {
           disabled={disabledButton}
           required
         ></Input>
-        <Label>Telefone:</Label>
+        <Label htmlFor="telephone">Telefone:</Label>
         <Input
           name="telephone"
+          id="telephone"
           value={signUpForm.telephone}
           onChange={(e) => handleForm(telephoneMask(e))}
           type="text"
@@ -176,9 +181,10 @@ function SignUpPage({ emailForm }) {
           disabled={disabledButton}
           required
         ></Input>
-        <Label>Senha (mínimo 6 caracteres):</Label>
+        <Label htmlFor="password">Senha (mínimo 6 caracteres):</Label>
         <Input
           name="password"
+          id="password"
           value={signUpForm.password}
           onChange={handleForm}
           type="password"
@@ -187,9 +193,10 @@ function SignUpPage({ emailForm }) {
           disabled={disabledButton}
           required
         ></Input>
-        <Label>Repetir senha:</Label>
+        <Label htmlFor="confirmPassword">Repetir senha:</Label>
         <InputConfirm
           name="confirmPassword"
+          id="confirmPassword"
           value={signUpForm.confirmPassword}
           onChange={handleForm}
           type="password"
