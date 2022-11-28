@@ -32,7 +32,7 @@ export default function CardPurchase({ purchase }) {
   const pricePerUnity = subtotal / amount;
   const [updatedMessage, setUpdatedMessage] = useState("Alterar quantidade");
   const [product, setProduct] = useState();
-
+  console.log(_id);
   useEffect(() => {
     axios
       .get(`${URL}/product/${idProduct}`)
@@ -60,7 +60,7 @@ export default function CardPurchase({ purchase }) {
       });
       promise.catch((error) => console.log(error.response.data));
     } else {
-      setUpdatedMessage("Limite máx atingido");
+      setUpdatedMessage("Limite máximo atingido");
     }
   }
 
@@ -80,6 +80,22 @@ export default function CardPurchase({ purchase }) {
         window.location.reload();
       });
       promise.catch((error) => console.log(error.response.data));
+    }
+  }
+
+  function deleteProduct() {
+    const answer = window.confirm("Você quer mesmo remover do carrinho?");
+    if (answer) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userAuth.token}`,
+        },
+      };
+      const promise = axios.delete(`${URL}/cart/${id}`, config);
+      promise.then(() => {
+        window.location.reload();
+      });
+      promise.catch((err) => console.log(err.response.data));
     }
   }
 
@@ -133,7 +149,7 @@ export default function CardPurchase({ purchase }) {
           <p>{updatedMessage}</p>
         </AmountContainer>
         <RemoveContainer>
-          <div>
+          <div onClick={deleteProduct}>
             <TrashIcon />
             <p>Remover do carrinho</p>
           </div>
