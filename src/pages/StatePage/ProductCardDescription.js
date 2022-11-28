@@ -47,6 +47,7 @@ const ProductCardDescriptionStyle = styled.div`
     button {
       margin-top: 20px;
       background-color: #4ecb71;
+      height: 30px;
       color: white;
       cursor: pointer;
     }
