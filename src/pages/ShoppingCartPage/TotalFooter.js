@@ -8,15 +8,24 @@ export default function TotalFooter() {
   useEffect(() => {
     let value = 0;
     for (let i = 0; i < cartData.length; i++) {
-      value += cartData[i].subtotal;
-      setTotal((value / 100).toFixed(2).replace(".", ","));
+      value += Number(cartData[i].subtotal);
+      setTotal(value);
     }
   }, [cartData]);
+
+  function formatValue(value) {
+    let newValue = `${value}`;
+    newValue = newValue.replace(/\D/g, "");
+    newValue = newValue.replace(/(\d)(\d{2})$/, "$1,$2");
+    newValue = newValue.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    return newValue;
+  }
+
 
   return (
     <TotalFooterStyle>
       <div>
-        <h3>Total: R$ {total}</h3>
+        <h3>Total: R$ {formatValue(total)}</h3>
         <button>Continuar</button>
       </div>
     </TotalFooterStyle>

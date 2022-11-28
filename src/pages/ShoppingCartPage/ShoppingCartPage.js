@@ -18,20 +18,10 @@ import LoggedOutScreen from "./LoggedOutScreen";
 function ShoppingCartPage() {
   const { userData } = useUserData();
   const { userAuth } = useAuth();
-  const { cartData } = useCartData();
+  const { cartData, setCartData } = useCartData();
 
   useEffect(() => {
-    //console.log(cartData); // pro put e pro delete
   }, [userData, userAuth, cartData]);
-
-  if (!userAuth) {
-    return (
-      <PageContainer>
-        <Header />
-        <LoggedOutScreen />
-      </PageContainer>
-    );
-  }
 
   if (!cartData) {
     return (
@@ -41,6 +31,15 @@ function ShoppingCartPage() {
       </PageContainer>
     );
   }
+  if (!userAuth) {
+    return (
+      <PageContainer>
+        <Header />
+        <LoggedOutScreen />
+      </PageContainer>
+    );
+  }
+
 
   if (cartData.length === 0) {
     <PageContainer>
