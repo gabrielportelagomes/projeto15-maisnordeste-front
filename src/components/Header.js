@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { TiShoppingCart } from "react-icons/ti";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../providers/auth";
 import { useUserData } from "../providers/userData";
@@ -14,6 +14,7 @@ import { RiAdminLine } from "react-icons/ri";
 import { HiOutlineCube } from "react-icons/hi";
 
 function Header() {
+  const navigate = useNavigate();
   const { userAuth, setUserAuth } = useAuth();
   const { userData, setUserData } = useUserData();
   const { cartData, setCartData } = useCartData();
@@ -59,7 +60,7 @@ function Header() {
       .then(() => {
         localStorage.removeItem("userAuthMaisNordeste");
         setUserAuth(undefined);
-        window.location.reload();
+        navigate("/");
       })
       .catch((error) => console.log(error.response.data.message));
   }
