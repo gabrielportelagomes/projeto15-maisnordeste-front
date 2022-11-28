@@ -6,9 +6,7 @@ import TotalFooter from "./TotalFooter";
 import EmptyCardContainer from "./EmptyCartContainer";
 import AddProductsLoggedIn from "./AddProductsLoggedIn";
 import { useUserData } from "../../providers/userData";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import URL from "../../constants/url";
+import { useEffect } from "react";
 import { useAuth } from "../../providers/auth";
 import PageContainer from "../AdminPage/PageContainer";
 import LoadingPage from "../../assets/styles/LoadingPage";
@@ -20,8 +18,7 @@ function ShoppingCartPage() {
   const { userAuth } = useAuth();
   const { cartData, setCartData } = useCartData();
 
-  useEffect(() => {
-  }, [userData, userAuth, cartData]);
+  useEffect(() => {}, [userData, userAuth, cartData]);
 
   if (!cartData) {
     return (
@@ -40,12 +37,14 @@ function ShoppingCartPage() {
     );
   }
 
-
-  if (cartData.length === 0) {
-    <PageContainer>
-      <Header />
-      <EmptyCardContainer />
-    </PageContainer>;
+  if (cartData.length == 0) {
+    return (
+      <CartPageContainer>
+        <Header />
+        <EmptyCardContainer />
+        <AddProductsLoggedIn />
+      </CartPageContainer>
+    );
   }
 
   return (
