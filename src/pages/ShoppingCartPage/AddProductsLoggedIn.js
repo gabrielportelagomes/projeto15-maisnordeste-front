@@ -17,12 +17,13 @@ const AddProductsLoggedInStyle = styled.section`
   align-items: center;
   justify-content: flex-start;
   button {
-    width: 250px;
-    font-size: 16px;
-    height: 30px;
+    height: 40px;
+    width: 283px;
+    margin-top: 20px;
+    margin-bottom: 60px;
     background-color: #3003b2;
+    font-size: 16px;
     color: white;
-    margin: 20px auto;
     cursor: pointer;
   }
 `;
