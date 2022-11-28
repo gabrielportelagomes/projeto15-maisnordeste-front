@@ -15,6 +15,7 @@ import creditCard from "../../assets/images/creditCard.png";
 import barCodeSelected from "../../assets/images/barCode-selected.png";
 import pixSelected from "../../assets/images/pix-selected.png";
 import creditCardSelected from "../../assets/images/creditCard-selected.png";
+import URL from "../../constants/url";
 
 function CheckoutPage() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function CheckoutPage() {
   const { cartData } = useCartData();
   const [total, setTotal] = useState();
   const [userId, setUserId] = useState();
+  const [cartIds, setCartIds] = useState();
   const [payment, setPayment] = useState();
 
   function formatValue(value) {
@@ -46,10 +48,9 @@ function CheckoutPage() {
       userId: userId,
       total: total,
       payment: payment,
+      status: "em análise",
       orders: orders,
     };
-
-    console.log(body);
 
     axios
       .post(`http://localhost:5000/orders`, body, {
@@ -57,7 +58,24 @@ function CheckoutPage() {
           Authorization: `Bearer ${userAuth.token}`,
         },
       })
-      .then(() => navigate("/"))
+      .then(() => {
+        deleteCart(userAuth.token);
+      })
+      .catch((error) => console.log(error.response.data));
+  }
+
+  function deleteCart(token) {
+    const body = cartIds;
+    console.log(token);
+
+    axios.delete(`${URL}/cart`, body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(() => {
+        navigate("/");
+      })
       .catch((error) => console.log(error.response.data));
   }
 
@@ -71,6 +89,9 @@ function CheckoutPage() {
     }
     if (cartData && !userId) {
       setUserId(cartData[0].user);
+      const ids = [];
+      cartData.forEach((product) => ids.push(product._id));
+      setCartIds(ids);
     }
   }, [cartData]);
 
@@ -201,6 +222,7 @@ const OrderContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 110px;
+  margin-top: 20px;
   overflow-y: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -208,7 +230,6 @@ const OrderContainer = styled.div`
     display: none; /* Chrome */
   }
   h1 {
-    margin-top: 20px;
     width: 340px;
     font-family: "Comfortaa", cursive;
     font-weight: 400;
