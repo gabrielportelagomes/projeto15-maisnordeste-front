@@ -2,8 +2,6 @@ import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./assets/styles/GlobalStyle";
 import ScreenContainer from "./components/ScreenContainer";
-import ActivitiesPage from "./pages/ActivitiesPage/ActivitiesPage";
-import ActivityPage from "./pages/ActivityPage/ActivityPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import HomePage from "./pages/HomePage/HomePage";
@@ -33,11 +31,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/admin" element={<AdminPage />} />
-                <Route path="/atividades" element={<ActivitiesPage />} />
-                <Route
-                  path="/atividades/:atividade"
-                  element={<ActivityPage />}
-                />
+              
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/pedidos" element={<OrdersPage />} />
                 <Route path="/produtos/:idProduto" element={<ProductPage />} />

@@ -41,11 +41,6 @@ function HomePage() {
           </Link>
         ))}
       </StatesContainer>
-      <ButtonContainer>
-        <Link to="/atividades">
-          <ActivitiesButton>Busque por atividade</ActivitiesButton>
-        </Link>
-      </ButtonContainer>
     </PageContainer>
   );
 }
