@@ -37,7 +37,6 @@ function OrdersPage() {
   }
 
   function statusColor(status) {
-    console.log(status === "em análise");
     if (status === "em análise") {
       return "#4092CF";
     } else if (status === "aprovado") {
@@ -86,7 +85,7 @@ function OrdersPage() {
       <Title>Meus pedidos:</Title>
       <OrdersContainer>
         {orders.map((order, id) => (
-          <Link key={id} to={`/orders/${order._id}`}>
+          <Link key={id} to={`/pedidos/${order._id}`}>
             <Order color={statusColor(order.status)}>
               <h1>Pedido nº : {order._id}</h1>
               <p>Data: {order.date}</p>

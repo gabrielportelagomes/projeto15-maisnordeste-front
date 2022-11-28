@@ -8,6 +8,7 @@ import AdminPage from "./pages/AdminPage/AdminPage";
 import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import HomePage from "./pages/HomePage/HomePage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import OrderPage from "./pages/OrderPage/OrderPage";
 import OrdersPage from "./pages/OrdersPage/OrdersPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage/ShoppingCartPage";
@@ -40,6 +41,7 @@ function App() {
                 />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/pedidos" element={<OrdersPage />} />
+                <Route path="/pedidos/:id" element={<OrderPage />} />
                 <Route path="/produtos/:idProduto" element={<ProductPage />} />
                 <Route path="/carrinho" element={<ShoppingCartPage />} />
                 <Route
