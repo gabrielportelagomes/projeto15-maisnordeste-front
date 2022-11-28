@@ -58,7 +58,7 @@ export default function StatePage() {
     });
   }, [selectedTag]);
 
-  if (productsFromState.length === 0) {
+  if (!productsFromState) {
     return (
       <StatePageContainer>
         <LoadingPage />
