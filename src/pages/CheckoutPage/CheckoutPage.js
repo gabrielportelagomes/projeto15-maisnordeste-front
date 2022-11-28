@@ -159,11 +159,11 @@ function CheckoutPage() {
 
             <p>Boleto bancário</p>
           </Payment>
-          <Payment onClick={() => setPayment("credito")}>
-            {payment === "credito" ? (
-              <img src={creditCardSelected} alt="credito" />
+          <Payment onClick={() => setPayment("crédito")}>
+            {payment === "crédito" ? (
+              <img src={creditCardSelected} alt="crédito" />
             ) : (
-              <img src={creditCard} alt="credito" />
+              <img src={creditCard} alt="crédito" />
             )}
 
             <p>Crédito 12x</p>

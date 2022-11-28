@@ -11,6 +11,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useCartData } from "../providers/cartData";
 import { BiLogOut } from "react-icons/bi";
 import { RiAdminLine } from "react-icons/ri";
+import { HiOutlineCube } from "react-icons/hi";
 
 function Header() {
   const { userAuth, setUserAuth } = useAuth();
@@ -58,6 +59,7 @@ function Header() {
       .then(() => {
         localStorage.removeItem("userAuthMaisNordeste");
         setUserAuth(undefined);
+        window.location.reload();
       })
       .catch((error) => console.log(error.response.data.message));
   }
@@ -95,6 +97,12 @@ function Header() {
                 <BiLogOut />
                 <h3>Sair</h3>
               </Option>
+              <Link to="/pedidos">
+                <Option>
+                  <HiOutlineCube />
+                  <h3>Pedidos</h3>
+                </Option>
+              </Link>
               {userData.type === "admin" && (
                 <Link to="/admin">
                   <Option>
