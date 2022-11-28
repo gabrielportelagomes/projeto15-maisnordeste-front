@@ -16,6 +16,7 @@ const StatePageContainer = styled.div`
   h1 {
     margin-top: 20px;
     display: flex;
+    font-size: 28px;
     justify-content: flex-start;
     width: 330px;
   }
