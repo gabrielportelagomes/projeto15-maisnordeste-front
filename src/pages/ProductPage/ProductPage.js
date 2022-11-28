@@ -212,20 +212,22 @@ function ProductPage() {
           </Icon>
         </AmountContainer>
       </OptionsContainer>
-      <Footer>
-        <p>Total: R$ {showTotal}</p>
-        {!userData ? (
-          <Link to={"/login"}>
-            <LoginButton>Faça o login</LoginButton>
-          </Link>
-        ) : disableButton ? (
-          <AddButton disabled={disableButton}>Adicionar</AddButton>
-        ) : (
-          <AddButton disabled={disableButton} onClick={addToCart}>
-            Adicionar
-          </AddButton>
-        )}
-      </Footer>
+      <TotalFooterStyle>
+        <div>
+          <h3>Total: R$ {showTotal}</h3>
+          {!userData ? (
+            <Link to={"/login"}>
+              <LoginButton>Faça o login</LoginButton>
+            </Link>
+          ) : disableButton ? (
+            <AddButton disabled={disableButton}>Adicionar</AddButton>
+          ) : (
+            <AddButton disabled={disableButton} onClick={addToCart}>
+              Adicionar
+            </AddButton>
+          )}
+        </div>
+      </TotalFooterStyle>
     </PageContainer>
   );
 }
@@ -313,11 +315,13 @@ const Tag = styled.div`
 
 const OptionsContainer = styled.div`
   width: 340px;
-  overflow-y: auto;
   margin-top: 260px;
   margin-bottom: 90px;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome */
   }
 `;
 
@@ -433,24 +437,6 @@ const Amount = styled.p`
   margin: 0 20px;
 `;
 
-const Footer = styled.div`
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
-  position: absolute;
-  bottom: 0;
-  p {
-    font-family: "Comfortaa", cursive;
-    font-weight: 700;
-    font-size: 20px;
-    color: #000000;
-    margin-left: 20px;
-  }
-`;
-
 const LoginButton = styled.button`
   width: 110px;
   height: 35px;
@@ -466,17 +452,34 @@ const LoginButton = styled.button`
   cursor: pointer;
 `;
 
-const AddButton = styled.button`
-  width: 110px;
-  height: 35px;
+const TotalFooterStyle = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  bottom: 0;
+  position: fixed;
+  div {
+    align-items: center;
+    padding: 10px;
+    display: flex;
+    width: 390px;
+    justify-content: space-between;
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    button {
+    }
+  }
+`;
+
+const AddButton = styled.button`
+  width: 100px;
+  height: 35px;
   background-color: ${(props) => (props.disabled ? "#d9d9d9" : "#4ECB71")};
-  margin-right: 20px;
-  font-family: "Comfortaa", cursive;
-  font-weight: 700;
-  font-size: 16px;
-  color: #ffffff;
+  color: white;
+  font-size: 14px;
   cursor: pointer;
 `;

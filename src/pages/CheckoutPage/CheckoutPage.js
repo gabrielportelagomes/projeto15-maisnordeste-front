@@ -115,7 +115,7 @@ function CheckoutPage() {
           <Summary>
             {cartData.map((product) => (
               <Product key={product._id}>
-                <Top>{product.title}</Top>
+                <Top>{product.title} - {product.state}</Top>
                 <Middle>
                   <img src={product.image} alt={product.title} />
                   <PurchaseSummary>
@@ -179,23 +179,25 @@ function CheckoutPage() {
           </Payment>
         </PaymentContainer>
       </OrderContainer>
-      <Footer>
-        <p>Total: R$ {formatValue(total)}</p>
-        {!payment ? (
-          <AddButton
-            active={true}
-            onClick={() =>
-              alert("Selecione uma forma de pagamento ao final da página!")
-            }
-          >
-            Finalizar pedido
-          </AddButton>
-        ) : (
-          <AddButton active={false} onClick={sendOrder}>
-            Finalizar pedido
-          </AddButton>
-        )}
-      </Footer>
+      <TotalFooterStyle>
+        <div>
+          <h3>Total: R$ {formatValue(total)}</h3>
+          {!payment ? (
+            <AddButton
+              active={true}
+              onClick={() =>
+                alert("Selecione uma forma de pagamento ao final da página!")
+              }
+            >
+              Finalizar pedido
+            </AddButton>
+          ) : (
+            <AddButton active={false} onClick={sendOrder}>
+              Finalizar pedido
+            </AddButton>
+          )}
+        </div>
+      </TotalFooterStyle>
     </PageContainer>
   );
 }
@@ -374,35 +376,34 @@ const Payment = styled.div`
   }
 `;
 
-const Footer = styled.div`
-  width: 100%;
-  height: 80px;
+const TotalFooterStyle = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
-  position: absolute;
+  justify-content: center;
+  width: 100%;
+  background-color: white;
+  height: 50px;
   bottom: 0;
-  p {
-    font-family: "Comfortaa", cursive;
-    font-weight: 700;
-    font-size: 20px;
-    color: #000000;
-    margin-left: 20px;
+  position: fixed;
+  div {
+    align-items: center;
+    padding: 10px;
+    display: flex;
+    width: 390px;
+    justify-content: space-between;
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    button {
+    }
   }
 `;
 
 const AddButton = styled.button`
-  width: 150px;
+  width: 100px;
   height: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: ${(props) => (props.active ? "#dcdcdc" : "#4ecb71")};
-  margin-right: 20px;
-  font-family: "Comfortaa", cursive;
-  font-weight: 700;
-  font-size: 16px;
-  color: #ffffff;
-  cursor: ${(props) => (props.active ? "cursor" : "pointer")};
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
 `;
