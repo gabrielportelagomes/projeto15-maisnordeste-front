@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
-import { useCartData } from "../../providers/cartData";
 import { BsFillCheckCircleFill as CheckIcon } from "react-icons/bs";
 import { BsFillXCircleFill as CloseIcon } from "react-icons/bs";
 import { BsCalendarCheck as CalendarIcon } from "react-icons/bs";
@@ -9,15 +8,10 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../providers/auth";
 import axios from "axios";
-import barCode from "../../assets/images/barCode.png";
-import pix from "../../assets/images/pix.png";
-import creditCard from "../../assets/images/creditCard.png";
-import barCodeSelected from "../../assets/images/barCode-selected.png";
-import pixSelected from "../../assets/images/pix-selected.png";
-import creditCardSelected from "../../assets/images/creditCard-selected.png";
 import URL from "../../constants/url";
 
 function OrderPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { userAuth } = useAuth();
   const [order, setOrder] = useState();
@@ -34,7 +28,8 @@ function OrderPage() {
           setOrder(response.data);
         })
         .catch((error) => {
-          alert(error.response.data);
+          console.log(error.response.data);
+          navigate("*");
         });
     }
   }, [userAuth]);
@@ -45,16 +40,6 @@ function OrderPage() {
     newValue = newValue.replace(/(\d)(\d{2})$/, "$1,$2");
     newValue = newValue.replace(/(?=(\d{3})+(\D))\B/g, ".");
     return newValue;
-  }
-
-  function statusColor(status) {
-    if (status === "em análise") {
-      return "#4092CF";
-    } else if (status === "aprovado") {
-      return "#4ECB71";
-    } else {
-      return "#D52B2B";
-    }
   }
 
   if (!order) {
