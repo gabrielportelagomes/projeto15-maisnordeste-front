@@ -52,8 +52,8 @@ function ShoppingCartPage() {
       <Header />
       <h1>Carrinho ({cartData.length})</h1>
       <PurchasesContainer>
-        {cartData.map((purchase) => (
-          <CardPurchase key={purchase.title} purchase={purchase} />
+        {cartData.map((purchase, id) => (
+          <CardPurchase key={id} purchase={purchase} />
         ))}
       </PurchasesContainer>
       <AddProductsLoggedIn />
