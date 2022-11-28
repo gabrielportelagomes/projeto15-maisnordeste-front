@@ -32,7 +32,7 @@ export default function CardPurchase({ purchase }) {
   const pricePerUnity = subtotal / amount;
   const [updatedMessage, setUpdatedMessage] = useState("Alterar quantidade");
   const [product, setProduct] = useState();
-  console.log(_id);
+
   useEffect(() => {
     axios
       .get(`${URL}/product/${idProduct}`)
