@@ -23,7 +23,6 @@ function CheckoutPage() {
   const { cartData } = useCartData();
   const [total, setTotal] = useState();
   const [userId, setUserId] = useState();
-  const [cartIds, setCartIds] = useState();
   const [payment, setPayment] = useState();
 
   function formatValue(value) {
@@ -53,26 +52,24 @@ function CheckoutPage() {
     };
 
     axios
-      .post(`http://localhost:5000/orders`, body, {
+      .post(`${URL}/orders`, body, {
         headers: {
           Authorization: `Bearer ${userAuth.token}`,
         },
       })
       .then(() => {
-        deleteCart(userAuth.token);
+        deleteCart();
       })
       .catch((error) => console.log(error.response.data));
   }
 
-  function deleteCart(token) {
-    const body = cartIds;
-    console.log(token);
-
-    axios.delete(`${URL}/cart`, body, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+  function deleteCart() {
+    axios
+      .delete(`${URL}/cart/all`, {
+        headers: {
+          Authorization: `Bearer ${userAuth.token}`,
+        },
+      })
       .then(() => {
         navigate("/");
       })
@@ -89,9 +86,6 @@ function CheckoutPage() {
     }
     if (cartData && !userId) {
       setUserId(cartData[0].user);
-      const ids = [];
-      cartData.forEach((product) => ids.push(product._id));
-      setCartIds(ids);
     }
   }, [cartData]);
 
