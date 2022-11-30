@@ -19,20 +19,20 @@ function ShoppingCartPage() {
   const { cartData, setCartData } = useCartData();
 
   useEffect(() => {}, [userData, userAuth, cartData]);
+  if (!userAuth) {
+    return (
+      <PageContainer>
+        <Header />
+        <LoggedOutScreen />
+      </PageContainer>
+    );
+  }
 
   if (!cartData) {
     return (
       <PageContainer>
         <Header />
         <LoadingPage />
-      </PageContainer>
-    );
-  }
-  if (!userAuth) {
-    return (
-      <PageContainer>
-        <Header />
-        <LoggedOutScreen />
       </PageContainer>
     );
   }
