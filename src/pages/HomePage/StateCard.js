@@ -41,7 +41,7 @@ const StateCardStyle = styled.div`
   background-image: url(${({ image }) => image});
   background-position: center;
   background-size: cover;
-  box-shadow: 1px -1px 3px black;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   transition: all .5s;
   cursor: pointer;
   h1 {
@@ -56,6 +56,8 @@ const StateCardOpen = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  box-shadow: none;
   nav {
     display: flex;
     justify-content: center;
