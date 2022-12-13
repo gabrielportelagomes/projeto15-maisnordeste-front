@@ -65,7 +65,7 @@ body {
 	line-height: 1;
 	width: 100%;
 	height: 100%;
-	background: radial-gradient(ellipse at right bottom, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
+	background: radial-gradient(circle at right center, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
 	font-family: "Comfortaa";
 }
 ol, ul, li {
